@@ -10,13 +10,18 @@ export default function GetFlight() {
   const [currentPage, setCurrentPage] = useState(1);
   const flightsPerPage = 5;
 
+  //Change here
+  const flightOwnerId = sessionStorage.getItem("ownerId");
+  //till here
+
   useEffect(() => {
     const token = sessionStorage.getItem('token')
     const httpHeader = {
       headers: { 'Authorization': 'Bearer ' + token }
     }
     axios
-      .get("https://localhost:7035/api/Flight", httpHeader)
+      // change here (only api, check port no accordingly)
+      .get(`https://localhost:7035/api/Flight/GetAllFlights/flightOwnerId?flightOwnerId=${flightOwnerId}`, httpHeader)
       .then(function (response) {
         setFlights(response.data);
         console.log(response.data);

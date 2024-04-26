@@ -12,9 +12,10 @@ export default function AddFlight() {
   const [company, setCompany] = useState("");
   const [seatError, setSeatError] = useState("");
   const [formError,setFormError] = useState("Enter all the required fields");
+  var [isFilledAll, setIsFilledAll] = useState(false);
   //till here
 
-  var [isFilledAll, setIsFilledAll] = useState(false);
+  
 
   useEffect(()=>{
     fetch(

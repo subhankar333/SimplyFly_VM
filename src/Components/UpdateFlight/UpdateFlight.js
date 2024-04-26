@@ -23,11 +23,35 @@ export default function UpdateFlight() {
     },
   ]);
 
-  const token = sessionStorage.getItem('token')
+  const token = sessionStorage.getItem('token');
+
 
   var updateAirlineDetail = {}
   var updateSeatsDetail = {}
   var updateStatusDetail = {}
+
+
+  //change here
+  const flightOwnerId = sessionStorage.getItem("ownerId");
+  //till here
+
+
+  //changed here
+  const [seatError, setSeatError] = useState("");
+  const [formError, setFormError] = useState("Enter all the required fields");
+  var [isFilledAll, setIsFilledAll] = useState(false);
+
+  function validateSeat(noOfSeats) {
+    if (noOfSeats <= 0 || noOfSeats > 120) {
+      setSeatError("Total Seats can't be negative and greater than 120");
+      return false;
+    }
+    else {
+      setSeatError("");
+      return true;
+    }
+  }
+  //till here
 
   useEffect(() => {
     const token = sessionStorage.getItem('token')
@@ -35,7 +59,8 @@ export default function UpdateFlight() {
       headers: { 'Authorization': 'Bearer ' + token }
     }
     axios
-      .get("https://localhost:7035/api/Flight", httpHeader)
+      //change here(only api, check port no accordingly)
+      .get(`https://localhost:7035/api/Flight/GetAllFlights/flightOwnerId?flightOwnerId=${flightOwnerId}`, httpHeader)
       .then(function (response) {
         setFlights(response.data);
         console.log(response.data);
@@ -81,10 +106,21 @@ export default function UpdateFlight() {
   }
 
   var UpdateFlightSeats = (e) => {
+  
+    //changed here
     if (!flightNumber || !seats) {
-      alert("Please enter the required details")
-      return
+      setIsFilledAll(true);
+      return;
     }
+    else if (!validateSeat(seats)) {
+      setSeatError("Total Seats can't be negative and greater than 120");
+      return;
+    }
+    //till here
+
+    //changed this line only
+    setIsFilledAll(false);
+
     e.preventDefault();
     updateSeatsDetail.flightNumber = flightNumber;
     updateSeatsDetail.totalSeats = parseInt(seats);
@@ -130,8 +166,14 @@ export default function UpdateFlight() {
       body: JSON.stringify(updateStatusDetail)
     }
 
+    const params = new URLSearchParams({
+      flightNumber: flightNumber,
+      status: status
+    });
 
-    fetch("http://localhost:5256/api/Flight/UpdateStatus", RequestOption)
+
+
+    fetch(`https://localhost:7035/api/Flight/UpdateFlightStatus?${params.toString()}`, RequestOption)
       .then(res => res.json())
       .then(res => {
         console.log(res);
@@ -142,6 +184,11 @@ export default function UpdateFlight() {
         alert('Error updating flight status.');
       });
   }
+
+
+
+
+
   return (
     <div className="update-flight-div">
       <div className="update-options-div">
@@ -204,34 +251,43 @@ export default function UpdateFlight() {
             </div>
             <div className="seats-input-div">
               <label htmlFor="seats" style={{ marginLeft: '150px' }}><b>Seats :</b> </label>
-              <input type="number" placeholder="Enter Seats" value={seats} onChange={(e) => setSeats(e.target.value)} />
+              {/* changed this line , onChange-> */}
+              <input type="number" placeholder="Enter Seats" value={seats} onChange={(e) => { setSeats(e.target.value); validateSeat(e.target.value) }} />
             </div>
+
+            {/* Change here  */}
+            <span style={{ color: 'red' }}>{seatError}</span>
+            {/* till here  */}
+
             <button type='button' className='update-flight-btn' onClick={UpdateFlightSeats}>Update Flight</button>
+            {/* changed here */}
+            {isFilledAll ? <span style={{ color: 'red' }}>{formError}</span> : ""}
+            {/* till here */}
           </form>
         </div>}
-        {/* {updateStatus && <div className="update-status">
-                <form>
-                    <div className="flightnumber-input-div">
-                        <label htmlFor="flight-number"style={{ marginLeft: '140px' }}><b>Flight Number :</b> </label>
-                        <select
-            className="select-destination-airport"
-            onChange={handleFlightNumberChange}
-          >
-            <option value="0">--Select flight--</option>
-            {flights.map((flight) => (
-              <option key={flight.flightNumber} value={flight.flightNumber}>
-                {flight.flightNumber}
-              </option>
-            ))}
-          </select>
-                    </div>
-                    <div className="status-input-div">
-                        <label htmlFor="status"style={{ marginLeft: '150px' }}><b>Status :</b> </label>
-                        <input type="number" placeholder="Enter Status" value={status} onChange={(e)=>setStatus(e.target.value)}style={{ marginLeft: '77px' }}/>
-                    </div>
-                    <button type='button' className='update-flight-btn' onClick={UpdateFlightStatus}>Update Flight</button>
-                </form>
-            </div>} */}
+        {updateStatus && <div className="update-status">
+          <form>
+            <div className="flightnumber-input-div">
+              <label htmlFor="flight-number" style={{ marginLeft: '140px' }}><b>Flight Number :</b> </label>
+              <select
+                className="select-destination-airport"
+                onChange={handleFlightNumberChange}
+              >
+                <option value="0">--Select flight--</option>
+                {flights.map((flight) => (
+                  <option key={flight.flightNumber} value={flight.flightNumber}>
+                    {flight.flightNumber}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="status-input-div">
+              <label htmlFor="status" style={{ marginLeft: '150px' }}><b>Status :</b> </label>
+              <input type="number" placeholder="Enter Status" value={status} onChange={(e) => setStatus(e.target.value)} style={{ marginLeft: '77px' }} />
+            </div>
+            <button type='button' className='update-flight-btn' onClick={UpdateFlightStatus}>Update Flight</button>
+          </form>
+        </div>}
       </div>
     </div>
   );

@@ -14,6 +14,11 @@ export default function DeleteFlight() {
     },
   ]);
 
+
+  //Change here
+  const flightOwnerId = sessionStorage.getItem("ownerId");
+ //till here
+
   const handleFlightNumberChange = (e) => {
     setFlightNumber(e.target.value);
   };
@@ -24,7 +29,8 @@ export default function DeleteFlight() {
       headers: { 'Authorization': 'Bearer ' + token }
     }
     axios
-      .get("https://localhost:7035/api/Flight", httpHeader)
+      //Change here(only api, check port no accordingly)
+      .get(`https://localhost:7035/api/Flight/GetAllFlights/flightOwnerId?flightOwnerId=${flightOwnerId}`, httpHeader)
       .then(function (response) {
         setFlights(response.data);
         console.log(response.data);
