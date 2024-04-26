@@ -8,19 +8,64 @@ export default function AddFlight() {
   var [totalSeats, setTotalSeats] = useState();
   var [basePrice, setBasePrice] = useState();
 
+  // changed here
+  const [company, setCompany] = useState("");
+  const [seatError, setSeatError] = useState("");
+  const [formError,setFormError] = useState("Enter all the required fields");
+  //till here
+
+  var [isFilledAll, setIsFilledAll] = useState(false);
+
   useEffect(()=>{
-    console.log(sessionStorage);
+    fetch(
+      `https://localhost:7035/api/FlightOwner?username=${sessionStorage.getItem(
+        "username"
+      )}`
+    )
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        setCompany(res.companyName);
+      });
   })
 
-  var flightDetails = {}
-  var AddFlight = (e) => {
-    if (!flightNumber || !airline || !totalSeats || !basePrice) {
-      alert("Enter all required fields");
-      return
+  //changed here
+  function validateSeat(noOfSeats)
+  {
+    if(noOfSeats <= 0 || noOfSeats > 120)
+    {
+      setSeatError("Total Seats can't be negative and greater than 120");
+      return false;
     }
+    else 
+    {
+      setSeatError("");
+      return true;
+    }
+  }
+  //till here
+ 
+
+  var flightDetails = {}
+  var AddFlight = (e) => 
+  {
+      //changed here
+    if (!flightNumber || !totalSeats || !basePrice) {
+      setIsFilledAll(true);
+      return;
+    }
+    else if(!validateSeat(totalSeats))
+    {
+      setSeatError("Total Seats can't be negative and greater than 120");
+      return;
+    }
+      //changed here
+  
+      //changed this line
+    setIsFilledAll(false);
     e.preventDefault();
     flightDetails.flightNumber = flightNumber;
-    flightDetails.airline = airline;
+    flightDetails.airline = company;
     flightDetails.totalSeats = parseInt(totalSeats);
     flightDetails.flightOwnerId = parseInt(sessionStorage.getItem('ownerId'))
     flightDetails.basePrice = parseFloat(basePrice);
@@ -58,17 +103,26 @@ export default function AddFlight() {
         </div>
         <div className='flight-airline-div flight-detail-div'>
           <label htmlFor='flight-airline'><b>Airline : </b></label>
-          <input type='text' placeholder='Enter airline' value={airline} onChange={(e) => setAirline(e.target.value)} required />
+          <input type='text' placeholder='Enter airline' value={company} readOnly />
         </div>
+
+        {/* changed here */}
         <div className='total-seats-div flight-detail-div'>
           <label htmlFor='total-seats'><b>Total Seats : </b></label>
-          <input type='number' placeholder='Enter total seats' value={totalSeats} onChange={(e) => setTotalSeats(e.target.value)} required />
+          <input type='number' placeholder='Enter total seats' value={totalSeats} onChange={(e) => {setTotalSeats(e.target.value);validateSeat(e.target.value)}} required />
         </div>
+
+        <span style={{ color: 'red' }}>{seatError}</span>
+        {/* till here */}
+
         <div className='base-price-div flight-detail-div'>
           <label htmlFor='base-price'><b>Base Price : </b></label>
           <input type='number' placeholder='Enter base price' value={basePrice} onChange={(e) => setBasePrice(e.target.value)} required />
         </div>
         <button type='button' className='add-flight-btn' onClick={AddFlight}>Add Flight</button>
+        {/* changed here */}
+        {isFilledAll ? <span style={{ color: 'red' }}>{formError}</span> : ""}
+        {/* till here */}
       </form>
     </div>
   )
