@@ -191,10 +191,10 @@ export default function Login() {
               />
 
               {/* Changed here */}
-              <span style={{ color: 'red' }}>{usernameError}</span>
               {/* till here */}
             </div>
-            
+            <span style={{ color: 'red' }}>{usernameError}</span>
+
             <div className="password-div">
               <img src={key} />
               <input
@@ -206,10 +206,11 @@ export default function Login() {
                 onChange={(e) => {setPassword(e.target.value);validatePassword(e.target.value)}}
               />
 
-              {/* Changed here */}
-              <span style={{ color: 'red' }}>{passwordError}</span>
-              {/* till here */}
             </div>
+
+            {/* Changed here */}
+            <span style={{ color: 'red' }}>{passwordError}</span>
+              {/* till here */}
 
             <input type="submit" value="Login" id="login-btn" onClick={Login} />
             {/* Changed here */}
