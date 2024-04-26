@@ -124,6 +124,9 @@ export default function AddFlight() {
         {isFilledAll ? <span style={{ color: 'red' }}>{formError}</span> : ""}
         {/* till here */}
       </form>
+      <p></p>
     </div>
+
+    
   )
 }
