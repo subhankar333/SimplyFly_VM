@@ -7,7 +7,7 @@ import vistara from "../../Assets/Images/vistara.png";
 
 export default function GetBookings() {
   var [bookings, setBooking] = useState([]);
-  var userId = sessionStorage.getItem("userId");
+  var ownerId = sessionStorage.getItem("ownerId");
   const token = sessionStorage.getItem("token");
   const [currentPage, setCurrentPage] = useState(1);
   const bookingsPerPage = 4;
@@ -52,7 +52,7 @@ export default function GetBookings() {
   }, []);
 
   function GetUser(id) {
-    const User = users.find((user) => user.userId === id);
+    const User = users.find((user) => user.customerId === id);
     if (User) {
       return User.name;
     }
@@ -115,7 +115,7 @@ export default function GetBookings() {
   return (
     <div className="bookings-div">
       <div className="get-bookings-div">
-        {currentBookings.map((booking, index) => (
+        {currentBookings.filter(cb => cb.schedule.flight.flightOwnerId == ownerId).map((booking, index) => (
           <div key={index} className="booking-list-div">
             <div className="booking-schedule-details">
               <div className="booking-flight-detail">
@@ -163,7 +163,7 @@ export default function GetBookings() {
                 <b>{getDate(new Date(booking.bookingTime)).formattedDate}</b>
               </div>
               <div>
-                Booked By : <b>{GetUser(booking.userId)}</b>
+                Booked By : <b>{GetUser(booking.customerId)}</b>
               </div>
             </div>
           </div>
