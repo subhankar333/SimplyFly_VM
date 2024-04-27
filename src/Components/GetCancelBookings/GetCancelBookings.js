@@ -8,7 +8,7 @@ import vistara from "../../Assets/Images/vistara.png";
 export default function GetCancelBookings() {
 
   var [bookings, setBooking] = useState([]);
-  var userId = sessionStorage.getItem("ownerId");
+  var ownerId = sessionStorage.getItem("ownerId");
   const token = sessionStorage.getItem("token");
   const [currentPage, setCurrentPage] = useState(1);
   const bookingsPerPage = 4;
@@ -23,6 +23,7 @@ export default function GetCancelBookings() {
         httpHeader
       )
       .then(function (response) {
+        console.log(ownerId);
         const sortBookings = response.data.sort((a, b) => new Date(b.bookingTime) - new Date(a.bookingTime));
         setBooking(sortBookings);
         console.log(response.data);
@@ -100,7 +101,7 @@ export default function GetCancelBookings() {
   return (
     <div className="bookings-div">
       <div className="get-bookings-div">
-        {currentBookings.map((booking, index) => (
+        {currentBookings.filter(cb => cb.booking.schedule.flight.flightOwnerId == ownerId).map((booking, index) => (
           <div key={index} className="booking-list-div">
             <div className="booking-schedule-details">
               <div className="booking-flight-detail">
