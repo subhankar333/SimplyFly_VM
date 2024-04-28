@@ -20,6 +20,57 @@ export default function BookingDetails() {
   var dispatch = useDispatch();
   var token = sessionStorage.getItem("token");
 
+  //change here
+
+  const [nameError, setNameError] = useState('');
+  const [ageError, setAgeError] = useState('');
+  const [passportNumberError, setPassportNumberError] = useState('');
+  const [formError, setFormError] = useState('');
+
+
+  const validatename = (Name) => {
+    if (!Name) {
+      setNameError("Please enter a name");
+      return false;
+    } else if (!/[^a-zA-Z]/.test(Name)) {
+      setNameError("Please enter a valid passenger name");
+      return false;
+    } else {
+      setNameError("");
+      return true;
+    }
+  };
+  const validateage = (Age) => {
+    if (!Age) {
+      setAgeError("Please enter Age");
+      return false;
+    } else if (isNaN(Age) || Age < 0) {
+      setAgeError("Please enter a valid number");
+      return false;
+    } else {
+      setAgeError("");
+      return true;
+    }
+  };
+  const validatePassword = (PassportNumber) => {
+    if (!PassportNumber) {
+      setPassportNumberError("Please enter Passport no");
+      return false;
+    } else if (PassportNumber.length < 8) {
+      setPassportNumberError("It should contain atleast eight characters");
+      return false;
+    } else if (PassportNumber.length > 8) {
+      setPassportNumberError("It should n't exceed eight characters");
+      return false;
+    } 
+    else if (PassportNumber.length == 8) {
+      setPassportNumberError("");
+      return true;
+    }
+  };
+  //till here
+
+
   function getDate(date) {
     const formattedDate = date.toLocaleDateString();
     const formattedTime = date.toLocaleTimeString();
@@ -61,24 +112,49 @@ export default function BookingDetails() {
       alert("You can add only " + totalPassengers + " passengers");
       return;
     }
-    if (!name || !age || !passportNumber) {
-      alert("Please enter passenger details");
-      return;
+
+    //change here
+    if (validatename(name) && validateage(age) && validatePassword(passportNumber)){
+      setNameError("");
+      setAgeError("");
+      setPassportNumberError("");
     }
+    if(validatename(name))
+    {
+      setNameError("");
+    }
+    if(validateage(age))
+    {
+      setAgeError("");
+    }
+    if(validatePassword(passportNumber))
+    {
+      setPassportNumberError("");
+    }
+    //till here
+    if (!name || !age || !passportNumber) {
+      setFormError("Please fix the errors before adding passener.")
+      return
+    }
+
+
     var isDuplicate = passengers.some(
       (passenger) => passenger.passportNo === passportNumber
     );
     if (isDuplicate) {
-      alert("Passenger with same passport number already added");
+      setFormError("Passenger with same passport number already added");
       return;
     }
+
     var passenger = {
       name: name,
       age: parseInt(age),
       passportNo: passportNumber,
     };
 
+    if (validatename(name) && validateage(age) && validatePassword(passportNumber)){
     setPassengers([...passengers, passenger]);
+    }
 
     console.log(
       "Passenger selected : " +
@@ -198,6 +274,8 @@ export default function BookingDetails() {
               required
             />
 
+            <span style={{ color: 'red' }}>{nameError}</span>
+
             <label htmlFor="passengerAge${index}" className="form-label">
               Age
             </label>
@@ -209,6 +287,7 @@ export default function BookingDetails() {
               onChange={handlePassengerAgeChange}
               required
             />
+             <span style={{ color: 'red' }}>{ageError}</span>
 
             <label htmlFor="passengerAge${index}" className="form-label">
               Passport Number
@@ -221,7 +300,10 @@ export default function BookingDetails() {
               onChange={handlePassportNumberChange}
               required
             />
+            <span style={{ color: 'red' }}>{passportNumberError}</span>
           </div>
+          
+          
           <button
             type="button"
             className="btn btn-remove"
@@ -230,9 +312,10 @@ export default function BookingDetails() {
           >
             Add Passenger
           </button>
+          <span style={{ color: 'red' }}>{formError}</span>
         </div>
       </div>
-      <h1>Passenger List</h1>
+      <h2>Passenger List</h2>
       <ul className="added-passenger">
         {passengers.map((passenger, index) => (
           <li key={index} className="added-passenger-list">

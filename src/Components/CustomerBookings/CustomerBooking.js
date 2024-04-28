@@ -151,6 +151,7 @@ export default function CustomerBooking() {
                   className="airline-logo"
                 />
                 <p className="-bookingflight-details">{booking.booking.schedule.flight.airline}</p>
+                &nbsp;
                 <p className="booking-flight-details">{booking.booking.schedule.flightNumber}</p>
               </div>
               <div className="flight-source">
@@ -167,7 +168,7 @@ export default function CustomerBooking() {
             </div>
             <div className='date-seat-div'>
               <div>Departure Date : <b>{getDate(new Date(booking.booking.schedule.departure)).formattedDate}</b></div>
-              <div>Seat : <b>{booking.seatDetail.seatNumber} ({booking.seatDetail.seatClass})</b></div>
+              <div>Seat : <b>{booking.seatDetail.seatNo} ({booking.seatDetail.seatClass})</b></div>
             </div>
             <div className='booking-passenger-details'>
               <div>Passenger name : <b>{booking.passenger.name}</b></div>

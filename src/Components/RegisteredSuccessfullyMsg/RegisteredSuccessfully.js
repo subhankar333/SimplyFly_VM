@@ -7,7 +7,7 @@ export default function RegisteredSuccessfully() {
   var navigate=useNavigate()
 
   function home(){
-    navigate('/home')
+    navigate('/login')
   }
   return (
     <div className='registration-body-div'>

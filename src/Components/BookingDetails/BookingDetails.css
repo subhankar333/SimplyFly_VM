@@ -12,6 +12,7 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
+    box-shadow: 2px 2px 8px rgb(145, 143, 143);
 }
 .selected-flight-detail{
     display: flex;
@@ -64,15 +65,16 @@
 }
 .added-passenger{
   width: 60%;
+  margin-right: 5%;
 }
 .added-passenger-list strong{
   margin: 5px;
 }
 .remove-passenger-btn{
 border-radius: 6px;
-background-color: red;
-color: white;
-font-size: 20px;
+background-color: orange;
+border-color: orange;
+font-size: 16px;
 font-weight: bold;
 padding: 4px;
 margin: 10px;
@@ -87,15 +89,15 @@ margin: 10px;
   display: flex;
   justify-content: center;
   border-radius: 6px;
-  background-color: #f6de63;
-  color: white;
+  background-color: #6551dc ;
+  border-color: #6551dc;
 }
 .book-seats-btn:hover{
   background-color: gold;
   box-shadow: 2px 2px 8px rgb(145, 143, 143);
 }
 #addPassengerBtn{
-  background-color: #f6de63;
+  background-color: #6551dc;
   color: white;
 }
 #addPassengerBtn:hover{

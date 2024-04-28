@@ -18,28 +18,52 @@ export default function HomeComponent() {
   var dispatch = useDispatch();
 
   var [airports, setAirports] = useState([]);
-  var [dateOfJourney, setDateOfJourney] = useState(new Date());
+  var [dateOfJourney, setDateOfJourney] = useState();
   var [Origin, setOrigin] = useState('');
   var [Destination, setDestination] = useState('');
   var [Adult, setAdult] = useState(1);
   var [Child, setChild] = useState(0);
   var [SeatClass, setSeatClass] = useState('economy')
-  var [searchFlightDetails, setSearchFlightDetails] = useState()
-  var searchFlightDetails = {}
+  var [searchFlightDetails, setSearchFlightDetails] = useState([])
+  //var searchFlightDetails = {}
+
+  var [errorOrigin, setErrorOrigin] = useState("");
+  var [errorDestination, setErrorDestination] = useState("");
+  var [errorDate, setErrorDate] = useState("");
+  var [errorPassengers, setErrorPassengers] = useState("");
 
   const handleSeatClassChange = (e) => {
     setSeatClass(e.target.value);
   };
 
   var searchFlight = (e) => {
+
+    console.log(Origin, Destination, dateOfJourney)
+    if (!Origin || !Destination || !dateOfJourney) {
+      setErrorOrigin(!Origin ? "Please fill in this field" : "");
+      setErrorDestination(!Destination ? "Please fill in this field" : "");
+      setErrorDate(!dateOfJourney ? "Please fill in this field" : "");
+      return;
+    } else {
+      setErrorOrigin("");
+      setErrorDestination("");
+      setErrorDate("");
+    }
     if (Adult > 5 || Child > 5) {
-      alert("Enter adult and child value less than 5");
+      setErrorPassengers("Enter adult and child value less than 5");
+      return;
+    } else {
+      setErrorPassengers("");
+    }
+    const selectedDate = new Date(dateOfJourney);
+    const currentDate = new Date(currentDateTime);
+
+    if (selectedDate < currentDate) {
+      setErrorDate("Date cannot be less than current date");
       return;
     }
-    e.preventDefault();
-    if (!Origin || !Destination || !dateOfJourney) {
-      alert('Please fill in all required fields');
-      return;
+    else {
+      setErrorDate("");
     }
 
     searchFlightDetails.dateOfJourney = dateOfJourney;
@@ -135,6 +159,7 @@ export default function HomeComponent() {
                     </option>
                   ))}
                 </datalist>
+                {errorOrigin && <span className="error-message"style={{ color: "red" }}>{errorOrigin}</span>}
               </div>
               <div className="arrival-div">
                 <label htmlFor="arrival">Flying to</label>
@@ -156,6 +181,7 @@ export default function HomeComponent() {
                     </option>
                   ))}
                 </datalist>
+                {errorDestination && <span className="error-message"style={{ color: "red" }}>{errorDestination}</span>}
               </div>
               <div className="depart-date-div">
                 <label htmlFor="dateOfJourney">Departure Date</label>
@@ -169,6 +195,7 @@ export default function HomeComponent() {
                   required
                   style={{ fontWeight: "bold" }}
                 />
+                {errorDate && <span className="error-message"style={{ color: "red" }}>{errorDate}</span>}
               </div>
               <div className="passenger-count-div-adult">
                 <label htmlFor="adultpassengerCount">Adult(18+)</label>
@@ -184,6 +211,7 @@ export default function HomeComponent() {
                   required
                   style={{ fontWeight: "bold" }}
                 />
+                {errorPassengers && <span className="error-message"style={{ color: "red" }}>{errorPassengers}</span>}
               </div>
               <div className="passenger-count-div-child">
                 <h6 style={{ marginLeft: '10px' }}>Child</h6>
@@ -199,6 +227,7 @@ export default function HomeComponent() {
                   required
                   style={{ fontWeight: "bold" }}
                 />
+                {errorPassengers && <span className="error-message"style={{ color: "red" }}>{errorPassengers}</span>}
               </div>
             </div>
             <h6 style={{ marginLeft: '10px' }}>Seat Class</h6>

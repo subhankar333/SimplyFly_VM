@@ -3,12 +3,72 @@ import "./SeatLayout.css";
 import { useSelector } from "react-redux";
 import BookingDetails from "../BookingDetails/BookingDetails";
 
+import paymentsImg from "./Images/image.png";
+import planelayout from "./Images/planelayout.png";
+import seatlayout from "./Images/seatlayout.png";
+
 export default function SeatLayout() {
   const [seats, setSeats] = useState([]);
   const [bookedSeats, setBookedSeats] = useState([]);
   var [cardNumber, setCardNumber] = useState();
   var [cvv, setCvv] = useState();
   var [expiry, setExpiry] = useState();
+
+  // changed here
+  const [cardNumberError, setcardNumberError] = useState('');
+  const [expiryError, setExpiryError] = useState('');
+  const [cvvError, setcvvError] = useState('');
+  const [formError, setFormError] = useState('');
+
+  const validatecardNumber = (cardnumber) => {
+    if(!cardnumber)
+    {
+      setcardNumberError("Please enter cardNumber");
+      return false;
+    }
+    else if (cardnumber.length !== 16) {
+      setcardNumberError('Card number should contain exactly 16 characters.');
+      return false;
+    }
+     else 
+     {
+      setcardNumberError('');
+      return true;
+    }
+  };
+  const validexpiry = (Expiry) => {
+    if (!Expiry) {
+      setExpiryError("Please enter an expiry date");
+      return false;
+    }
+    const today = new Date();
+    const [month, year] = Expiry.split('/').map(Number);
+    const expiryDate = new Date(year, month - 1, 1); // Creating a date object with the entered month and year
+    // Check if the entered value matches the MM/YYYY format
+    if (/^(0[1-9]|1[0-2])\/\d{4}$/.test(Expiry) && expiryDate > today) {
+      // Check if expiry date is not in the past
+      setExpiryError('');
+      return true;
+    } else if (Expiry === '' || /^\d{0,2}\/$/.test(Expiry)) {
+      // Allow empty string or partially entered MM/
+      setExpiryError("Invalid Expiry date");
+      return false;
+    }
+  };
+  
+  const validcvv = (CVV) => {
+    if (!CVV) {
+      setcvvError("Please enter CVV");
+      return false;
+    } else if (!/^\d{3}$/.test(CVV)) {
+      setcvvError("CVV should contain exactly 3 digits.");
+      return false;
+    } else {
+      setcvvError("");
+      return true;
+    }
+  };
+  //till here
 
   var selectedFlight = useSelector((state) => state.selectedFlight);
   var passengerIds = useSelector((state) => state.passengerIds);
@@ -76,6 +136,8 @@ export default function SeatLayout() {
   }
 
   var [scheduleId, setScheduleId] = useState(selectedFlight.scheduleId);
+  var [FlightId, setFlightId] = useState(selectedFlight.flightNumber);
+  console.log(FlightId);
   var [userId, setUserId] = useState(sessionStorage.getItem("customerId"));
   var [bookingTime, seatBookingTime] = useState(Date.now);
   var [passengersIds, setPassengers] = useState(passengerIds);
@@ -132,15 +194,17 @@ export default function SeatLayout() {
     <div className="seat-layout">
       <div className="seat-color-div">
         <div className="seat-availability">
+        <img src={seatlayout} style={{width: '270%' , height:'700%',marginLeft: "650%",marginBottom: "-90%",marginTop:"50%"}}/>
           <div><p className="booked-seats"></p>Booked Seats</div>
           <div><p className="avilable-seats"></p>Available Seats</div>
           <div><p className="selected-seats"></p>Selected Seats</div>
         </div>
       </div>
       <div className="seat-layout-div">
+      <img className="planelayout" src={planelayout} style={{ width: '100%', height: '120%',marginTop: "10%",marginRight:"50%" }} />
         <div className="seat-selection">
           <div className="seat-arrangement">
-            {seats.map((seat, index) => (
+            {seats.filter(cb => cb.flightNumber === FlightId).map((seat, index) => (
               <div
                 key={index}
                 className={`flight ${bookedSeats.includes(seat.seatNo) ? "booked" : ""
@@ -150,11 +214,11 @@ export default function SeatLayout() {
                   }`}
                 onClick={() => SelectSeat(seat.seatNo)}
               >
-                <div id="seats"> {seat.seatNo}</div>
+                 <div id="seats"style={{ fontSize: '9px' }}> {seat.seatNo}</div>
               </div>
             ))}
           </div>
-          <div className="passage"></div>
+         
         </div>
         <button onClick={Payments} className="pay-btn">
           Make Payment
@@ -163,10 +227,13 @@ export default function SeatLayout() {
       {payments && (
         <div className="payments">
           <div className="payment-form mt-4 payment-form-div">
-            <h4>Payment Details</h4>
+            <div>
+            <h4>Enter your Payment Details</h4>
+            <img className="payments-img" src={paymentsImg} />
+            </div>
             <div className="mb-3">
               <label htmlFor="cardNumber" className="form-label">
-                Card Number
+                  Card Number*
               </label>
               <input
                 type="text"
@@ -177,9 +244,12 @@ export default function SeatLayout() {
                 onChange={handleCardNumberChange}
               />
             </div>
+             {/* Changed here */}
+            <span style={{ color: 'red' }}>{cardNumberError}</span>
+              {/* till here */}
             <div className="mb-3">
               <label htmlFor="expiryDate" className="form-label">
-                Expiry Date
+              Expiry Date*
               </label>
               <input
                 type="text"
@@ -191,9 +261,12 @@ export default function SeatLayout() {
                 required
               />
             </div>
+            {/* Changed here */}
+            <span style={{ color: 'red' }}>{expiryError}</span>
+              {/* till here */}
             <div className="mb-3">
               <label htmlFor="cvv" className="form-label">
-                CVV
+                  CVV*
               </label>
               <input
                 type="password"
@@ -204,6 +277,9 @@ export default function SeatLayout() {
                 required
               />
             </div>
+            {/* Changed here */}
+            <span style={{ color: 'red' }}>{cvvError}</span>
+              {/* till here */}
 
             <button
               type="button"
@@ -212,6 +288,9 @@ export default function SeatLayout() {
             >
               Book Flight
             </button>
+              {/* Changed here */}
+              <span style={{ color: 'red' }}>{formError}</span>
+            {/* till here */}
           </div>
         </div>
       )}

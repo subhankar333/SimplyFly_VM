@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Profile.css";
+import backImg from "./Images/image.png";
 
 export default function Profile() {
   var [user, setUser] = useState({});

@@ -92,6 +92,46 @@ export default function GetCancelBookings() {
     }
   };
 
+  
+  const handleRefundStatusUpdate = (cancelBookingId, newStatus) => {
+    const httpHeader = {
+      headers: { Authorization: "Bearer " + token },
+    };
+
+    var params = new URLSearchParams();
+    params.append('cancelBookingId', cancelBookingId);
+    params.append('status', newStatus);
+
+    axios
+      .put(
+        `https://localhost:7035/api/FlightOwner/UpdateRefundStatus?${params.toString()}`,
+        { cancelBookingId: cancelBookingId, status: newStatus },
+        httpHeader
+      )
+      .then(function (response) {
+        console.log(response.data);
+        alert("Refund status update successful");
+        // Refresh the bookings list
+        axios
+          .get(
+            `https://localhost:7035/api/CustomerDashboard/GetAllCancelledBookings`,
+            httpHeader
+          )
+          .then(function (response) {
+            const sortBookings = response.data.sort((a, b) => new Date(b.bookingTime) - new Date(a.bookingTime));
+            setBooking(sortBookings);
+            console.log(response.data);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      })
+      .catch(function (error) {
+        console.error("Error:", error);
+        alert("Error updating refund status.");
+      });
+  };
+  
   const indexOfLastBooking = currentPage * bookingsPerPage;
   const indexOfFirstBooking = indexOfLastBooking - bookingsPerPage;
   const currentBookings = bookings.slice(indexOfFirstBooking, indexOfLastBooking);
@@ -99,10 +139,10 @@ export default function GetCancelBookings() {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className="bookings-div">
-      <div className="get-bookings-div">
+    <div className="bookings-div" id="bookings-div_1">
+      <div className="get-bookings-div" id="get-bookings-div_1">
         {currentBookings.filter(cb => cb.booking.schedule.flight.flightOwnerId == ownerId).map((booking, index) => (
-          <div key={index} className="booking-list-div">
+          <div key={index} className="booking-list-div" id="booking-list-div_1">
             <div className="booking-schedule-details">
               <div className="booking-flight-detail">
                 <img
@@ -141,7 +181,18 @@ export default function GetCancelBookings() {
                 </p>
               </div>
 
-              <div className='delete-user-btn' onClick>E</div>
+              <div className="refund-status-container">
+                <select
+                  className="refund-status-select"
+                  value={booking.refundStatus}
+                  onChange={(e) => handleRefundStatusUpdate(booking.cancelId, e.target.value)}
+                >
+                  <option value="---Select---">---Select---</option>
+                  <option value="Refund Issued">Refund Issued</option>
+                  <option value="Cancelled">Refund Deckined</option>
+                </select>   
+              </div>
+
             </div>
             <div className="booking-passenger-details">
               <div>
@@ -149,13 +200,17 @@ export default function GetCancelBookings() {
                 <b>{getDate(new Date(booking.booking.bookingTime)).formattedDate}</b>
               </div>
               <div>
-                Booked By : <b>{GetUser(booking.booking.customerId)}</b>
+                  Status :{" "}
+                <b style={{fontSize:"16px"}}>{booking.refundStatus}</b>
               </div>
+              <div>
+                Booked By : <b>{GetUser(booking.booking.customerId)}</b>
+              </div>Ref
             </div>
           </div>
         ))}
         <div className='pagination'>
-          {bookings.length > bookingsPerPage && (
+          {(bookings.length > bookingsPerPage && currentPage > 1) && (
             <button onClick={() => paginate(currentPage - 1)}>Previous</button>
           )}
           {bookings.length > indexOfLastBooking && (

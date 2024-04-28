@@ -249,7 +249,7 @@ export default function SearchedFlightResult() {
       </div>
 
       <div className="available-flights-div">
-        {getSearchFlightResult.map((flight, index) => (
+        {Array.isArray(getSearchFlightResult) && getSearchFlightResult.map((flight, index) => (
           <div key={index} className="key-div">
             <div className="available-flight-detail">
               <img

@@ -1,5 +1,5 @@
 .update-profile-btn{
-    background-color: gray;
+  background-color: #1a77a3;
     color: white;
     font-weight: bold;
 }
@@ -8,6 +8,10 @@
     border-radius: 6px;
 }
 
+.col-md-16{
+  margin-top: -60%;
+  width: fit-content;
+}
 
 @media (max-width: 900px) {
     .profile-section{
