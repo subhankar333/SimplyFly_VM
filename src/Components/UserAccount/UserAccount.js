@@ -6,12 +6,14 @@ import rightArrow from '../../Assets/Images/right-arrow.png'
 import leftArrow from '../../Assets/Images/left-arrow.png'
 import CustomerBookingHistory from "../CustomerBookings/CustomerBookingHistory";
 import Footer from "../Footer/Footer";
+import GetCancelBookings from "../GetCancellBookingCustomer/GetCancellBookingCustomer";
 
 
 export default function UserAccount() {
   var [profile, setProfile] = useState(true);
   var [bookings, setBookings] = useState(false);
   var [bookingsHistory, setBookingHistory] = useState(false);
+  var [cancelledBookings, setCancelledBookings] = useState(false); // Add state for CancelledBookings
   var userRole = sessionStorage.getItem("role");
 
   var [isCustomer, setIsCustomer] = useState(userRole == "customer");
@@ -43,6 +45,7 @@ export default function UserAccount() {
                 setProfile(true);
                 setBookings(false);
                 setBookingHistory(false);
+                setCancelledBookings(false);
               }}
             >
               Profile
@@ -54,6 +57,7 @@ export default function UserAccount() {
                 setProfile(false);
                 setBookings(true);
                 setBookingHistory(false);
+                setCancelledBookings(false);
               }}
             >
               Bookings
@@ -64,10 +68,24 @@ export default function UserAccount() {
                 setProfile(false);
                 setBookings(false);
                 setBookingHistory(true);
+                setCancelledBookings(false);
               }}
             >
               Bookings History
             </div>}
+            {isCustomer && (
+              <div
+                className="sidebar-option"
+                onClick={() => {
+                  setProfile(false);
+                  setBookings(false);
+                  setBookingHistory(false);
+                  setCancelledBookings(true); // Set CancelledBookings to true
+                }}
+              >
+                Cancelled Bookings
+              </div>
+            )}
           </div>
         </div>
         <div className="container-main" id="container-main">
@@ -79,6 +97,7 @@ export default function UserAccount() {
           )}
           {bookings && <div className="get-bookings"><CustomerBooking /></div>}
           {bookingsHistory && <div className="get-bookings-history"><CustomerBookingHistory /></div>}
+          {cancelledBookings && <div className="get-cancelled-bookings"><GetCancelBookings /></div>} {/* Render CancelledBookings if cancelledBookings state is true */}
         </div>
       </div>
       <Footer />
