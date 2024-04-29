@@ -15,14 +15,18 @@ export default function DeleteSchedule() {
   var [airports, setAirports] = useState([]);
 
   var [flights, setFlights] = useState([]);
+  var ownerId = sessionStorage.getItem("ownerId");
 
   useState(() => {
     const token = sessionStorage.getItem("token");
     const httpHeader = {
       headers: { Authorization: "Bearer " + token },
     };
+    const params = new URLSearchParams({
+      flightOwnerId: ownerId,
+    });
     axios
-      .get("https://localhost:7035/api/Flight", httpHeader)
+      .get(`https://localhost:7035/api/Flight/GetAllFlights/flightOwnerId?${params.toString()}`, httpHeader)
       .then(function (response) {
         setFlights(response.data);
         console.log(response.data);

@@ -25,6 +25,8 @@ export default function UpdateSchedule() {
   const [currentPage, setCurrentPage] = useState(1);
   const schedulesPerPage = 4;
 
+  const ownerId = sessionStorage.getItem("ownerId");
+
   function getDate(date) {
     const formattedDate = date.toLocaleDateString();
     const formattedTime = date.toLocaleTimeString();
@@ -203,7 +205,7 @@ export default function UpdateSchedule() {
                     {getDate(new Date(schedule.arrival)).formattedTime}
                   </div>
                 </div>
-                <img src={editIcon} onClick={() => DisplayUpdate(schedule.scheduleId)} className='edit-icon' />
+                {schedule.flight.flightOwnerId == ownerId && <img src={editIcon} onClick={() => DisplayUpdate(schedule.scheduleId)} className='edit-icon' />}
               </div>
             </div>
           ))}
