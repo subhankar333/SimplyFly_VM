@@ -124,11 +124,20 @@ margin: 10px;
   }
   .added-passenger{
     width: 96%;
+    gap: 14px;
   }
   ul{
     padding-left: 0;
   }
   .book-seats-btn{
     width: 60%;
+  }
+
+  .added-passenger-list{
+    width: 100%;
+  }
+
+  .added-passenger p{
+    font-size: medium;
   }
 }

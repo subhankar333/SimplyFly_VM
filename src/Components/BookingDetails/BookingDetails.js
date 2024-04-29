@@ -325,7 +325,7 @@ export default function BookingDetails() {
             <p>
               <strong>Age:</strong> {passenger.age}
             </p>
-            <p>
+            <p className="passport-text">
               <strong>Passport Number:</strong> {passenger.passportNo}
             </p>
             <button

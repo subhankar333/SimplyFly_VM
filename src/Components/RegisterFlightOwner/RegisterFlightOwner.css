@@ -10,7 +10,7 @@
     z-index: 1;
 }
 .register-div{
-    height: 83%;
+    height: 86%;
     width: 50%;
     background-color: rgb(255, 255, 255);
     box-shadow: 2px 2px 20px black;
@@ -73,18 +73,26 @@
 }
 #register-btn,.next-btn,.back-btn{
     margin: 10px;
-    height: 30px;
-    width: 50%;
+    height: 40px;
+    width: 60%;
     border-radius: 10px;
     font-family: 'Roboto Slab', serif;
-    font-size: 15px;
-    background-color: #4fa3e3;
+    font-size: 13px;
+    background-color: rgb(34, 94, 234) !important;
     color: white;
+    
 }
 #register-btn:hover,.next-btn:hover{
     cursor: pointer;
-    font-size: 18px;
+    font-size: 16px;
     background-color: #339ef0;
+}
+
+@media (max-width: 768px) {
+    .register-div {
+        width: 60%;
+        height: 85% !important;
+    }
 }
 
 @media (max-width: 1050px) {

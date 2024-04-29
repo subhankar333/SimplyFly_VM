@@ -23,6 +23,9 @@ export default function Services() {
         if (startIndex < offers.length - numVisibleOffers) {
             setStartIndex(startIndex + 1);
         }
+        else{
+            setStartIndex(0);
+        }
     };
 
     return (
@@ -44,7 +47,7 @@ export default function Services() {
                         ))}
                     </div>
                     <div className="text-center mt-3">
-                        <button className="btn btn-outline-primary mr-2" onClick={handlePrev}>&lt;</button>
+                        { startIndex > 0 && <button className="btn btn-outline-primary mr-2" onClick={handlePrev}>&lt;</button>}
                         <button className="btn btn-outline-primary" onClick={handleNext}>&gt;</button>
                     </div>
                 </div>
