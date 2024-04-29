@@ -119,6 +119,7 @@ export default function GetBookings() {
   const indexOfLastBooking = currentPage * bookingsPerPage;
   const indexOfFirstBooking = indexOfLastBooking - bookingsPerPage;
   const currentBookings1 = currentBookings.slice(indexOfFirstBooking, indexOfLastBooking);
+  const currentBookings2 = bookings.slice(indexOfFirstBooking, indexOfLastBooking);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -181,7 +182,7 @@ export default function GetBookings() {
                 </div>
                     </div>
               ))
-          : currentBookings.map((booking, index) => (
+          : currentBookings2.map((booking, index) => (
               <div key={index} className="booking-list-div">
                 <div className="booking-schedule-details">
                   <div className="booking-flight-detail">

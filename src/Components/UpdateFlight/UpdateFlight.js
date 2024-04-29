@@ -282,7 +282,7 @@ export default function UpdateFlight() {
               </select>
             </div>
             <div className="status-input-div">
-              <label htmlFor="status"style={{ marginLeft: '144px' }}><b>Status :</b> </label>
+              <label htmlFor="status" style={{ marginLeft: '144px' }}><b>Status :</b> </label>
               <input type="number" placeholder="Enter Status" value={status} onChange={(e) => setStatus(e.target.value)} style={{ marginLeft: '77px' }} />
             </div>
             <button type='button' className='update-flight-btn' onClick={UpdateFlightStatus}>Update Flight</button>

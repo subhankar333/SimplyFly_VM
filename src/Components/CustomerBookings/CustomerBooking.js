@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './CustomerBooking.css';
 import indigo from "../../Assets/Images/indigo.png";
 import airIndia from "../../Assets/Images/airindia.png";
@@ -8,9 +8,15 @@ import boardingPassImage from "./Images/image.png";
 import JsBarcode from 'jsbarcode';
 
 
+
 export default function CustomerBooking() {
   var [bookings, setBookings] = useState([]);
   var userId = sessionStorage.getItem("customerId");
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [bookingsPerPage, setBookingsPerPage] = useState();
+
+  // console.log(window.innerWidth);
 
   useState(() => {
     fetch(`https://localhost:7035/api/CustomerDashboard/GetBookingByCustomerId?customerId=${userId}`)
@@ -22,6 +28,38 @@ export default function CustomerBooking() {
         setBookings(sortedBookings);
       });
   });
+
+
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  // Update windowWidth state on window resize
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Clean up event listener
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+   // Update bookingsPerPage on window resize
+   useEffect(() => {
+    const handleResize = () => {
+      setBookingsPerPage(window.innerWidth <= 900 ? 1 : 4);
+    };
+
+    handleResize(); // Call initially to set bookingsPerPage
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   function getDate(date) {
     const formattedDate = date.toLocaleDateString();
@@ -137,12 +175,20 @@ export default function CustomerBooking() {
     
     doc.save('boarding-pass.pdf');
   };
+
+
+  console.log(bookingsPerPage, windowWidth);
+
+  const indexOfLastBooking = currentPage * bookingsPerPage;
+  const indexOfFirstBooking = indexOfLastBooking - bookingsPerPage;
+  const currentBookings = bookings.slice(indexOfFirstBooking, indexOfLastBooking);
   
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <div className='bookings-div'>
       <div className='get-bookings-div'>
-        {bookings.map((booking, index) => (
+        {currentBookings.map((booking, index) => (
           <div key={index} className="booking-list-div">
             <div className='booking-schedule-details'>
               <div className="booking-flight-detail">
@@ -176,6 +222,16 @@ export default function CustomerBooking() {
               <div>Booking Date : <b>{getDate(new Date(booking.booking.bookingTime)).formattedDate}</b></div>
             </div>
           </div>))}
+
+          <div className='pagination' id='pagi-id'>
+               {(bookings.length > bookingsPerPage && currentPage > 1) && (
+                 <button onClick={() => paginate(currentPage - 1)}>Previous</button>
+               )}
+               {bookings.length > indexOfLastBooking && (
+                 <button onClick={() => paginate(currentPage + 1)}>Next</button>
+               )}
+            </div>
+
       </div>
     </div>
   )

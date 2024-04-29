@@ -20,13 +20,13 @@ export default function ManageFlight() {
   const [deleteFlight, setDeleteFlight] = useState(false)
 
   function DisplayOptions() {
-    var sidebar = document.getElementById('manage-flight-sidebar');
+    var sidebar = document.getElementById('account-sidebar');
     var mainContainer = document.getElementById('container-main')
     sidebar.style.display = "flex"
     mainContainer.style.display = "none"
   }
   function DisplayMain() {
-    var sidebar = document.getElementById('manage-flight-sidebar');
+    var sidebar = document.getElementById('account-sidebar');
     var mainContainer = document.getElementById('container-main')
     sidebar.style.display = "none"
     mainContainer.style.display = "flex"
@@ -53,8 +53,8 @@ export default function ManageFlight() {
             <div className="sidebar-option" onClick={()=>{
               setAddFlight(false);
               setGetFlight(true);
-              setUpdateFlight(false)
-              setDeleteFlight(false)
+              setUpdateFlight(false);
+              setDeleteFlight(false);
             }}><div style={{ display: "flex", alignItems: "left", marginRight:"40px" }}>
             <img src={mybooking} alt="Profile" style={{ width: "20px", height: "20px", marginRight: "5px",opacity:"50px" }} /> Get Flights</div>
             </div>

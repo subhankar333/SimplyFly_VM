@@ -9,8 +9,13 @@ export default function GetCancelBookings() {
   const [bookings, setBooking] = useState([]);
   const userId = sessionStorage.getItem("customerId");
   const token = sessionStorage.getItem("token");
-  const [currentPage, setCurrentPage] = useState(1);
   const [users, setUsers] = useState([]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [bookingsPerPage, setBookingsPerPage] = useState();
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+
 
   useEffect(() => {
     const httpHeader = {
@@ -44,6 +49,21 @@ export default function GetCancelBookings() {
       .catch(function (error) {
         console.log(error);
       });
+  }, []);
+
+  // Update bookingsPerPage on window resize
+  useEffect(() => {
+    const handleResize = () => {
+      setBookingsPerPage(window.innerWidth <= 900 ? 1 : 4);
+    };
+
+    handleResize(); // Call initially to set bookingsPerPage
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   function GetUser(id) {
@@ -84,7 +104,8 @@ export default function GetCancelBookings() {
     }
   };
 
-  const bookingsPerPage = 4;
+  console.log(bookingsPerPage, windowWidth);
+  
   var currentBookings = bookings.filter(cb => cb.booking.customerId == userId);
   const indexOfLastBooking = currentPage * bookingsPerPage;
   const indexOfFirstBooking = indexOfLastBooking - bookingsPerPage;
@@ -100,7 +121,7 @@ export default function GetCancelBookings() {
             <div className="booking-schedule-details">
               <div className="booking-flight-detail">
                 <img src={getAirlineImage(booking.booking.schedule.flight.airline)} className="airline-logo" />
-                <div>
+                <div className="flight-detail-1">
                   <p className="-bookingflight-details">{booking.booking.schedule.flight.airline}</p>
                   <p className="booking-flight-details">{booking.booking.schedule.flightNumber}</p>
                 </div>
@@ -133,7 +154,7 @@ export default function GetCancelBookings() {
           </div>
         ))}
 
-        <div className='pagination'>
+        <div className='pagination' id="pagi-id">
             {(currentBookings.length > bookingsPerPage && currentPage > 1) && (
                 <button onClick={() => paginate(currentPage - 1)}>Previous</button>
             )}

@@ -12,6 +12,7 @@
 .get-User-div{
     width: 70%;
 }
+
 @media (max-width: 900px) {
 .account-sidebar{
     display: none;
@@ -28,6 +29,11 @@
     width: 30px;
     height: auto;
     margin: 10px;
+}
+
+.sidebar-container{
+    margin-left: -10% !important;
+    width: 80% !important;
 }
 
 }

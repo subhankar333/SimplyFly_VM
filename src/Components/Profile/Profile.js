@@ -56,11 +56,7 @@ export default function Profile() {
         });
     } else {
       setIsAdmin(true)
-      fetch(
-        `https://localhost:7035/api/AdminDashboard/GetAdminByUsername=${sessionStorage.getItem(
-          "username"
-        )}`
-      )
+      fetch(`https://localhost:7035/api/AdminDashboard/GetAdminByUsername?username=${sessionStorage.getItem("username")}`)
         .then((res) => res.json())
         .then((res) => {
           console.log(res);
