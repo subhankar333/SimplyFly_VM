@@ -6,6 +6,8 @@ export default function GetRoute() {
   const [routes, setRoutes] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const routesPerPage = 4;
+  
+  const ownerId = sessionStorage.getItem("ownerId");
 
   useEffect(() => {
     const token = sessionStorage.getItem('token')

@@ -90,7 +90,6 @@ export default function GetCancelBookings() {
   const indexOfFirstBooking = indexOfLastBooking - bookingsPerPage;
   const currentBookings1 = currentBookings.slice(indexOfFirstBooking, indexOfLastBooking);
 
-
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (

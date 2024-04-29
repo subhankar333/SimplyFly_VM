@@ -13,6 +13,9 @@ export default function GetCancelBookings() {
   const [currentPage, setCurrentPage] = useState(1);
   const bookingsPerPage = 4;
 
+  const role = sessionStorage.getItem("role");
+  console.log(role, ownerId);
+
   useEffect(() => {
     const httpHeader = {
       headers: { Authorization: "Bearer " + token },
@@ -132,17 +135,20 @@ export default function GetCancelBookings() {
       });
   };
   
+  var currentBookings = bookings.filter((cb) => cb.booking.schedule.flight.flightOwnerId == ownerId);
   const indexOfLastBooking = currentPage * bookingsPerPage;
   const indexOfFirstBooking = indexOfLastBooking - bookingsPerPage;
-  const currentBookings = bookings.slice(indexOfFirstBooking, indexOfLastBooking);
+  const currentBookings1 = currentBookings.slice(indexOfFirstBooking, indexOfLastBooking);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <div className="bookings-div" id="bookings-div_1">
       <div className="get-bookings-div" id="get-bookings-div_1">
-        {currentBookings.filter(cb => cb.booking.schedule.flight.flightOwnerId == ownerId).map((booking, index) => (
-          <div key={index} className="booking-list-div" id="booking-list-div_1">
+      {role === "flightowner"
+          ? currentBookings1 
+              .map((booking, index) => (
+                <div key={index} className="booking-list-div" id="booking-list-div_1">
             <div className="booking-schedule-details">
               <div className="booking-flight-detail">
                 <img
@@ -189,7 +195,7 @@ export default function GetCancelBookings() {
                 >
                   <option value="---Select---">---Select---</option>
                   <option value="Refund Issued">Refund Issued</option>
-                  <option value="Cancelled">Refund Deckined</option>
+                  <option value="Cancelled">Refund Declined</option>
                 </select>   
               </div>
 
@@ -208,15 +214,83 @@ export default function GetCancelBookings() {
               </div>Ref
             </div>
           </div>
-        ))}
-        <div className='pagination'>
-          {(bookings.length > bookingsPerPage && currentPage > 1) && (
-            <button onClick={() => paginate(currentPage - 1)}>Previous</button>
-          )}
-          {bookings.length > indexOfLastBooking && (
-            <button onClick={() => paginate(currentPage + 1)}>Next</button>
-          )}
-        </div>
+              ))
+          : currentBookings.map((booking, index) => (
+            <div key={index} className="booking-list-div" id="booking-list-div_1">
+            <div className="booking-schedule-details">
+              <div className="booking-flight-detail">
+                <img
+                  src={getAirlineImage(booking.booking.schedule.flight.airline)}
+                  className="airline-logo"
+                />
+                <div>
+                  <p className="-bookingflight-details">
+                    {booking.booking.schedule.flight.airline}
+                  </p>
+                  <p className="booking-flight-details">
+                    {booking.booking.schedule.flightNumber}
+                  </p>
+                </div>
+              </div>
+              <div className="flight-source">
+                <p className="flight-details">
+                  {booking.booking.schedule.route.sourceAirport.city}
+                </p>
+                <p className="flight-details">
+                  {getDate(new Date(booking.booking.schedule.departure)).formattedTime}
+                </p>
+              </div>
+              <p className="time-diff">
+                {getTimeDifference(
+                  booking.booking.schedule.departure,
+                  booking.booking.schedule.arrival
+                )}
+              </p>
+              <div className="flight-destination">
+                <p className="flight-details">
+                  {booking.booking.schedule.route.destinationAirport.city}
+                </p>
+                <p className="flight-details">
+                  {getDate(new Date(booking.booking.schedule.arrival)).formattedTime}
+                </p>
+              </div>
+
+              
+
+            </div>
+            <div className="booking-passenger-details">
+              <div>
+                Booking Date :{" "}
+                <b>{getDate(new Date(booking.booking.bookingTime)).formattedDate}</b>
+              </div>
+              <div>
+                  Status :{" "}
+                <b style={{fontSize:"16px"}}>{booking.refundStatus}</b>
+              </div>
+              <div>
+                Booked By : <b>{GetUser(booking.booking.customerId)}</b>
+              </div>
+            </div>
+          </div>
+            ))}
+           
+            {role == "flightowner" ? (
+               <div className='pagination'>
+               {(currentBookings.length > bookingsPerPage && currentPage > 1) && (
+                 <button onClick={() => paginate(currentPage - 1)}>Previous</button>
+               )}
+               {currentBookings.length > indexOfLastBooking && (
+                 <button onClick={() => paginate(currentPage + 1)}>Next</button>
+               )}
+             </div>
+            ) : (<div className='pagination'>
+            {(bookings.length > bookingsPerPage && currentPage > 1) && (
+              <button onClick={() => paginate(currentPage - 1)}>Previous</button>
+            )}
+            {bookings.length > indexOfLastBooking && (
+              <button onClick={() => paginate(currentPage + 1)}>Next</button>
+            )}
+          </div>)}
       </div>
     </div>
   );
