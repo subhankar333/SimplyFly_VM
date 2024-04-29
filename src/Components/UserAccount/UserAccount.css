@@ -12,7 +12,6 @@
 .get-User-div{
     width: 70%;
 }
-
 @media (max-width: 900px) {
 .account-sidebar{
     display: none;
@@ -95,4 +94,7 @@
     color: inherit; /* Use the same color as the default text color */
     cursor: pointer; /* Change cursor to pointer on hover */
   }
+.container-main{
+    background-color: transparent;
+}
   

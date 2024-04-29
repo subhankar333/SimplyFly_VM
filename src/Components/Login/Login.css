@@ -55,14 +55,8 @@
     font-family: 'Roboto Slab', serif;
     font-size: 14px;
     background-color: #f2f2f2; /* Light gray background */
-    margin-top: 23px;
 }
 
-.login-inputs:focus{
-    outline: none;
-   border-color: #007bff; /* Change color on focus */
-   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Add a subtle shadow */
-}
 /* Image Icons */
 .username-div img,
 .password-div img {
@@ -155,6 +149,14 @@
     cursor: pointer;
   }
   
+  .register-user span:hover {
+    text-decoration: underline;
+  }
+  .register-user span {
+    color: blue;
+    cursor: pointer;
+  }
+  
   .forgot-password span:hover {
     text-decoration: underline;
   }
@@ -169,4 +171,7 @@
     margin-top: -30px;
     margin-bottom: -30px;
     margin-left: 220px;
+  }
+  .register-user:hover{
+    text-decoration: underline;
   }

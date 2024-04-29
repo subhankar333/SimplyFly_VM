@@ -176,10 +176,13 @@ export default function Login() {
         <div className="login-div">
           <h3></h3>
           <h3></h3>
-          <h3>Login</h3>
+          <h3>Welcome Back</h3>
+          
           <div className="login-img"><img src={loginImage} alt="Login Image" /></div>
           <form>
+          
             <div className="username-div">
+              <h2> </h2>
               <img src={userImg} />
               <input
                 type="text"
@@ -187,14 +190,10 @@ export default function Login() {
                 placeholder="Enter your username"
                 className="login-inputs"
                 value={Username}
-                onChange={(e) => {setUsername(e.target.value);validateUsername(e.target.value)}}
+                onChange={(e) => setUsername(e.target.value)}
               />
-
-              {/* Changed here */}
-              {/* till here */}
             </div>
             <span style={{ color: 'red' }}>{usernameError}</span>
-
             <div className="password-div">
               <img src={key} />
               <input
@@ -203,30 +202,16 @@ export default function Login() {
                 placeholder="Enter your password"
                 className="login-inputs"
                 value={Password}
-                onChange={(e) => {setPassword(e.target.value);validatePassword(e.target.value)}}
+                onChange={(e) => setPassword(e.target.value)}
               />
-
             </div>
-
-            {/* Changed here */}
             <span style={{ color: 'red' }}>{passwordError}</span>
-              {/* till here */}
-
+            <h6 className="forgot-password" onClick={()=>navigate('/UpdatePassword')}>forgot password?</h6>
             <input type="submit" value="Login" id="login-btn" onClick={Login} />
-            {/* Changed here */}
             <span style={{ color: 'red' }}>{formError}</span>
-            {/* till here */}
-
-            <h6 className="forgot-password" onClick={() => navigate('/updatePassword')}>forgot password?</h6>
+            <h6 className="register-user" style={{ color: 'blue', cursor: 'pointer' }} onClick={()=>navigate('/registerUser')}>Sign Up as Customer</h6>
+            <h6 className="register-user" style={{ color: 'blue', cursor: 'pointer' }} onClick={()=>navigate('/register')}>Sign Up as Flight Owner</h6>
           </form>
-          <p className="register-text">
-            Don't have account? register as-<br />
-            <span id="registerhere-text">
-              <button className='register-option-btn' onClick={() => navigate('/registerUser')}>Customer</button>
-              <button className='register-option-btn' onClick={() => navigate('/register')}>FlightOwner</button>
-              <button className='register-option-btn' onClick={() => navigate('/registerAdmin')}>Admin</button>
-            </span>
-          </p>
         </div>
       </div>
     </div>

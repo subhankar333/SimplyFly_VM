@@ -13,6 +13,14 @@
     justify-content: flex-end;
 }
 
+.brand-text{
+    margin-left: -12%;
+}
+
+.navbar-brand img{
+    margin-left: -200px;
+}
+
 
 .navbar-brand, .nav-link {
     color: white;
@@ -61,5 +69,7 @@
     .link-btn {
         display: block;
     }
+
+
 }
 

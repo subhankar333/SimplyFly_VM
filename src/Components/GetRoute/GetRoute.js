@@ -45,12 +45,12 @@ export default function GetRoute() {
             <b>Destination Airport :</b> {route.destinationAirport.name}, {route.destinationAirport.city}
           </div>
           <div>
-            <b>Status :</b> {route.status.name}, {route.status}
+            <b>Status :</b>  {route.status}
           </div>
         </div>
       ))}
       <div className="pagination">
-        {routes.length > routesPerPage && (
+        {(routes.length > routesPerPage && currentPage > 1) && (
           <button onClick={() => paginate(currentPage - 1)}>Previous</button>
         )}
         {routes.length > indexOfLastRoute && (

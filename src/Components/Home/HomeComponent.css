@@ -267,10 +267,14 @@
   }
 
   .flight-search-container {
-    margin-top: 30px;
+    margin-top: 40px;
     height: 85%;
   }
 
+  .Search-flights-text h2{
+      margin-top: 15px;
+      font-size: 24px;
+  }
 
 }
 
@@ -347,4 +351,6 @@
     width: 30%;
     margin: 10px 170px;
   }
+
+
 }

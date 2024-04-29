@@ -44,7 +44,7 @@ function CustomNavbar() {
         <>
             <nav className="navbar bg-custom fixed-top" id="navbar-main">
                 <div className="container-fluid">
-                    <a className="navbar-brand" href="#">
+                    <a className="navbar-brand" href="/">
                         <img
                             src={logo}
                             width="30"
@@ -52,8 +52,9 @@ function CustomNavbar() {
                             className="d-inline-block align-top"
                             alt="Simply FLY Logo"
                             style={{ marginRight: '10px' }}
+                            onClick={Home}
                         />
-                        <span className="brand-text smaller" style={{ fontWeight: 'bold', color: 'white' }}>SIMPLYFLY</span>
+                        <span className="brand-text smaller" style={{ fontWeight: 'bold', color: 'white' }} onClick={Home}>SIMPLYFLY</span>
                     </a>
                     <div style={{ marginRight: '-150px' }}>
                         <ul className="navbar-nav nav-links">

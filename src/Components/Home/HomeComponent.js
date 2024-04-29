@@ -214,7 +214,7 @@ export default function HomeComponent() {
                 {errorPassengers && <span className="error-message"style={{ color: "red" }}>{errorPassengers}</span>}
               </div>
               <div className="passenger-count-div-child">
-                <h6 style={{ marginLeft: '10px' }}>Child</h6>
+              <label htmlFor="adultpassengerCount">Child</label>
                 <input
                   type="number"
                   className="form-control"

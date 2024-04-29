@@ -26,7 +26,7 @@ export default function Services() {
     };
 
     return (
-        <div>
+        <div className='service-head'>
             <section id="main-image" className="section">
                 <div className="container">
                     <img src={mainImage} alt="Main Image" className="img-fluid" />

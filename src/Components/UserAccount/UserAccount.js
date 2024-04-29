@@ -50,7 +50,7 @@ export default function UserAccount() {
             </div>
             <div className="more-profile-option"><img src={leftArrow} className="right-arrow" onClick={DisplayMain} /></div>
             <div
-              className="sidebar-option custom-sidebar-option"
+              className="sidebar-option"
               onClick={() => {
                 setProfile(true);
                 setBookings(false);
