@@ -154,6 +154,7 @@ export default function BookingDetails() {
 
     if (validatename(name) && validateage(age) && validatePassword(passportNumber)){
     setPassengers([...passengers, passenger]);
+    setFormError("");
     }
 
     console.log(

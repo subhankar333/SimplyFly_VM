@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
 import './DeleteRoute.css'
 
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+
 export default function DeleteRoute() {
   var [sourceAirport, setSourceAirport] = useState();
   var [destinationAirport, setDestinationAirport] = useState();
@@ -29,11 +33,11 @@ export default function DeleteRoute() {
         .then(res => res.json())
         .then(res => {
           console.log('Response:', res);
-          alert('Route deleted successfully');
+          toast('Route deleted successfully');
         })
         .catch(err => {
           console.error('Error:', err);
-          alert('No Such Route Present');
+          toast('No Such Route available');
         });
     }
 
@@ -88,6 +92,7 @@ export default function DeleteRoute() {
       <button type="button" className="delete-route-btn" onClick={DeleteFlightRoute}>
         Remove Route
       </button>
+      <ToastContainer />
     </div>
   )
 }

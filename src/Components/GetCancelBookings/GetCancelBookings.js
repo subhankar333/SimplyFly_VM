@@ -5,6 +5,11 @@ import indigo from "../../Assets/Images/indigo.png";
 import airIndia from "../../Assets/Images/airindia.png";
 import vistara from "../../Assets/Images/vistara.png";
 
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+
+
 export default function GetCancelBookings() {
 
   var [bookings, setBooking] = useState([]);
@@ -113,7 +118,7 @@ export default function GetCancelBookings() {
       )
       .then(function (response) {
         console.log(response.data);
-        alert("Refund status update successful");
+        toast("Refund status updated successfully");
         // Refresh the bookings list
         axios
           .get(
@@ -131,7 +136,7 @@ export default function GetCancelBookings() {
       })
       .catch(function (error) {
         console.error("Error:", error);
-        alert("Error updating refund status.");
+        toast("Error updating refund status.");
       });
   };
   
@@ -293,6 +298,7 @@ export default function GetCancelBookings() {
             )}
           </div>)}
       </div>
+      <ToastContainer />
     </div>
   );
 }

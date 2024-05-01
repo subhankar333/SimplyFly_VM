@@ -3,13 +3,17 @@ import "./DeleteSchedule.css";
 import axios from "axios";
 import { json } from "react-router-dom";
 
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+
 export default function DeleteSchedule() {
   const currentDateTime = new Date().toISOString();
   var [airlineScheduleDelete, setAirlineScheduleDelete] = useState(true);
   var [dateScheduleDelete, setDateScheduleDelete] = useState(false);
 
-  var [flightNumber, setFlightNumber] = useState();
-  var [airport, setAirport] = useState();
+  var [flightNumber, setFlightNumber] = useState("0");
+  var [airport, setAirport] = useState("0");
   var [date, setDate] = useState();
 
   var [airports, setAirports] = useState([]);
@@ -37,9 +41,17 @@ export default function DeleteSchedule() {
   }, []);
 
   var DeleteFligtSchedule = (e) => {
+
+    e.preventDefault();
+
+    if(flightNumber === '0')
+    {
+      toast("Select Flight");
+      return;
+    }
+
     const confirmDelete = window.confirm(`Are you sure you want to remove the schedule?`);
     if (confirmDelete) {
-      e.preventDefault();
       console.log(flightNumber);
 
       const params = new URLSearchParams({
@@ -61,12 +73,12 @@ export default function DeleteSchedule() {
         .then((res) => res.json())
         .then((res) => {
           console.log(res);
-          alert("Schedule deleted successfully");
+          toast("Schedule deleted successfully");
         })
         .catch((err) => {
           console.log(params.toString());
           console.error("Error:", err);
-          alert("Error deleting Schedule.");
+          toast("Error deleting Schedule.");
         });
     }
 
@@ -74,6 +86,24 @@ export default function DeleteSchedule() {
   var deleteDateScheduleData = {}
 
   var DeleteDateSchedule = (e) => {
+   
+     e.preventDefault();
+     if(!date && airport === '0')
+     {
+       toast("Select departure date and Airport")
+       return;
+     }
+     else if(!date)
+     {
+       toast("Select departure date");
+       return;
+     }
+     else if(airport === '0')
+     {
+       toast("Select Airport");
+       return;
+     }
+
     const confirmDelete = window.confirm(`Are you sure you want to remove the schedule?`);
     if (confirmDelete) {
       deleteDateScheduleData.dateOfSchedule = date
@@ -95,11 +125,11 @@ export default function DeleteSchedule() {
         .then((res) => res.json())
         .then((res) => {
           console.log(res);
-          alert("Schedule deleted successfully");
+          toast("Schedule deleted successfully");
         })
         .catch((err) => {
           console.error("Error:", err);
-          alert("Error deleting Schedule.");
+          toast("Error deleting Schedule.");
         });
     }
 
@@ -116,6 +146,7 @@ export default function DeleteSchedule() {
 
   const handleFlightNumberChange = (e) => {
     setFlightNumber(e.target.value);
+    console.log('selected flight ' + flightNumber);
   };
 
   return (
@@ -215,6 +246,7 @@ export default function DeleteSchedule() {
           </div>
         )}
       </div>
+      <ToastContainer />
     </div>
   );
 }

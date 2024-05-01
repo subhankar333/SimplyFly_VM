@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react'
 import './AddFlight.css'
 import { json } from 'react-router-dom';
 
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+
 export default function AddFlight() {
   var [flightNumber, setFlightNumber] = useState();
   var [airline, setAirline] = useState();
@@ -14,8 +18,6 @@ export default function AddFlight() {
   const [formError,setFormError] = useState("Enter all the required fields");
   var [isFilledAll, setIsFilledAll] = useState(false);
   //till here
-
-  
 
   useEffect(()=>{
     fetch(
@@ -87,11 +89,11 @@ export default function AddFlight() {
       .then(res => res.json())
       .then(res => {
         console.log('Response:', res);
-        alert('Flight added successfully');
+        toast('Flight added successfully');
       })
       .catch(err => {
         console.error('Error:', err);
-        alert('Flight Already Exists');
+        toast('Flight Already Exists');
       });
   }
 
@@ -126,6 +128,7 @@ export default function AddFlight() {
         {/* till here */}
       </form>
       <p></p>
+      <ToastContainer/>
     </div>
 
     

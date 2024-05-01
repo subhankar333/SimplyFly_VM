@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import "./AddRoute.css";
 
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+
 export default function AddRoute() {
   var [sourceAirport, setSourceAirport] = useState();
   var [destinationAirport, setDestinationAirport] = useState();
@@ -30,11 +34,11 @@ export default function AddRoute() {
       .then(res => res.json())
       .then(res => {
         console.log('Response:', res);
-        alert('Route added successfully');
+        toast('Route added successfully');
       })
       .catch(err => {
         console.error('Error:', err);
-        alert('Route already present');
+        toast('Route already present');
       });
 
   };
@@ -97,6 +101,7 @@ export default function AddRoute() {
       <button type="button" className="add-route-btn" onClick={AddNewRoute}>
         Add Route
       </button>
+      <ToastContainer />
     </div>
   );
 }

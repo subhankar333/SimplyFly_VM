@@ -3,6 +3,10 @@ import "./UpdateFlight.css";
 import axios from "axios";
 import { width } from "@fortawesome/free-brands-svg-icons/fa42Group";
 
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+
 export default function UpdateFlight() {
   const [updateAirline, setUpdateAirline] = useState(true)
   const [updateSeats, setUpdateSeats] = useState(false)
@@ -76,7 +80,7 @@ export default function UpdateFlight() {
 
   var UpdateFlightAirline = (e) => {
     if (!flightNumber || !airline) {
-      alert("Please enter the required details")
+      toast("Please enter the required details")
       return
     }
     e.preventDefault();
@@ -97,11 +101,11 @@ export default function UpdateFlight() {
       .then(res => res.json())
       .then(res => {
         console.log(res);
-        alert('Flight airline update successfully');
+        toast('Flight airline update successfully');
       })
       .catch(err => {
         console.error('Error:', err);
-        alert('Error updating flight.');
+        toast('Error updating flight.');
       });
   }
 
@@ -140,11 +144,11 @@ export default function UpdateFlight() {
       .then(res => res.json())
       .then(res => {
         console.log(res);
-        alert('Flight seats update successfully');
+        toast('Flight seats update successfully');
       })
       .catch(err => {
         console.error('Error:', err);
-        alert('Error updating flight.');
+        toast('Error updating flight.');
       });
   }
   var UpdateFlightStatus = (e) => {
@@ -177,11 +181,11 @@ export default function UpdateFlight() {
       .then(res => res.json())
       .then(res => {
         console.log(res);
-        alert('Flight status update successfully');
+        toast('Flight status update successfully');
       })
       .catch(err => {
         console.error('Error:', err);
-        alert('Error updating flight status.');
+        toast('Error updating flight status.');
       });
   }
 
@@ -289,6 +293,7 @@ export default function UpdateFlight() {
           </form>
         </div>}
       </div>
+      <ToastContainer />
     </div>
   );
 }

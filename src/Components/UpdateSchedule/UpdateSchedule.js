@@ -6,11 +6,16 @@ import airIndia from "../../Assets/Images/airindia.png";
 import vistara from "../../Assets/Images/vistara.png";
 import editIcon from "../../Assets/Images/edit-icon.png";
 
+
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+
 export default function UpdateSchedule() {
   const [flights, setFlights] = useState([]);
   const [airports, setAirports] = useState([]);
   const [schedules, setSchedules] = useState([]);
-  const [flightNumber, setFlightNumber] = useState();
+  const [flightNumber, setFlightNumber] = useState("0");
   const [scheduleId, setScheduleId] = useState();
   const [departureTime, setDepartureTime] = useState();
   const [arrivalTime, setArrivalTime] = useState();
@@ -79,6 +84,7 @@ export default function UpdateSchedule() {
 
   const handleFlightNumberChange = (e) => {
     setFlightNumber(e.target.value);
+    console.log("Selected flight number:", e.target.value);
   };
   const handleDepartureTimeChange = (e) => {
     setDepartureTime(e.target.value);
@@ -88,8 +94,8 @@ export default function UpdateSchedule() {
   };
 
   function UpdateScheduleFlight() {
-    if (!flightNumber) {
-      alert('Select Flight');
+    if (flightNumber == '0') {
+      toast('Select Flight');
       return;
     }
     var updateDetails = {};
@@ -108,16 +114,16 @@ export default function UpdateSchedule() {
       .then((res) => res.json)
       .then((res) => {
         console.log(res);
-        alert('Updated flight for the Schedule');
+        toast('Updated flight for the Schedule');
       })
       .catch((err) => {
-        console.log(err);
+        toast("Error updating schedule");
       });
   }
 
   function UpdateScheduleDate() {
     if (departureTime == arrivalTime) {
-      alert('Departure and arrival time cannot be same');
+      toast('Departure and arrival time cannot be same');
       return;
     }
     var updateDetails = {};
@@ -137,10 +143,10 @@ export default function UpdateSchedule() {
       .then((res) => res.json)
       .then((res) => {
         console.log(res);
-        alert('Updated Time for the Schedule');
+        toast('Updated Time for the Schedule');
       })
       .catch((err) => {
-        console.log(err);
+        toast("Error updating schedule");
       });
   }
 
@@ -287,6 +293,7 @@ export default function UpdateSchedule() {
           )}
         </div>
       )}
+      <ToastContainer />
     </div>
   );
 }

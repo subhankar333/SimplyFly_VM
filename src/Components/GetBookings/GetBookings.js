@@ -5,6 +5,11 @@ import indigo from "../../Assets/Images/indigo.png";
 import airIndia from "../../Assets/Images/airindia.png";
 import vistara from "../../Assets/Images/vistara.png";
 
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+
+
 export default function GetBookings() {
   var [bookings, setBooking] = useState([]);
   var [bookings1, setBooking1] = useState([]);
@@ -90,14 +95,14 @@ export default function GetBookings() {
     fetch(`https://localhost:7035/api/CustomerDashboard/${userId}/bookings/${bookingId}`, RequestOptions)
       .then(response => {
         if (response.ok) {
-          alert("Booking deleted successfully");
+          toast("Booking deleted successfully");
         } else {
-          throw new Error('Failed to delete booking');
+          toast('Failed to delete booking');
         }
       })
-      .then(alert("Booking deleted successfully"))
+      .then()
       .catch((err) => {
-        alert(err)
+        toast('Failed to delete booking');
       })
   }
 
@@ -273,6 +278,7 @@ export default function GetBookings() {
           </div>)}
 
       </div>
+      <ToastContainer />
     </div>
   );
 }
