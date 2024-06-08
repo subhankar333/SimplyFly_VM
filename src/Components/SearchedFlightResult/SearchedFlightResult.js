@@ -12,6 +12,11 @@ import Footer from "../Footer/Footer";
 import uparrow from '../../Assets/Images/up-arrow.png'
 import downarrow from '../../Assets/Images/down-arrow.png'
 
+
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+
 export default function SearchedFlightResult() {
   const [isRoundtrip, setIsRoundtrip] = useState(false);
   var getSearchDetails = useSelector((state) => state.searchFlight)
@@ -77,7 +82,7 @@ export default function SearchedFlightResult() {
       .then(res => {
         console.log(res);
         if (res.length === 0) {
-          alert("No flights available")
+          toast("No flights available")
           return
         }
         else {
@@ -276,6 +281,7 @@ export default function SearchedFlightResult() {
           </div>
         ))}
       </div>
+      <ToastContainer />
     </div>
   );
 }

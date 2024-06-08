@@ -5,6 +5,10 @@ import keyimg from '../../Assets/Images/key.png'
 import RegisteredSuccessfully from "../RegisteredSuccessfullyMsg/RegisteredSuccessfully";
 import Registeruserimg from "./Images/image.png";
 
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+
 
 export default function RegisterFlightOwner() {
 
@@ -36,10 +40,13 @@ export default function RegisterFlightOwner() {
 
   const validateUsername = (Name) => {
     if (!Name) {
-      setUserNameError("Please enter a name");
+      toast("Please enter a Username");
+      return false;
+    } else if (username.length < 5) {
+      toast("Userame should contain min of 5 characters");
       return false;
     } else if (/^[^a-zA-Z]/.test(Name)) {
-      setUserNameError("Name should start with a letter");
+      toast("Userame should start with a letter");
       return false;
     } else {
       setUserNameError("");
@@ -48,15 +55,15 @@ export default function RegisterFlightOwner() {
   };
   const validatepassword = (Password) => {
     if (!Password) {
-      setPasswordError("Please enter a password");
+      toast("Please enter a password");
       return false;
     } 
     else if(Password.length<6){
-      setPasswordError("Password should contain more than 5 characters")
+      toast("Password should contain more than 5 characters")
       return false;
     }
     else if (/^[a-zA-Z0-9]+$/.test(Password)) {
-      setPasswordError("It should  be alphanmeric");
+      toast("It should  be alphanmeric");
       return false;
     } else {
       setPasswordError("");
@@ -66,12 +73,12 @@ export default function RegisterFlightOwner() {
   const validatecontNumber = (ContactNumber) => {
     const phoneRegex = /^\d{10}$/; // This assumes a 10-digit phone number
     if (!ContactNumber) {
-      setContactNumberError("Please enter a contact number.");
+      toast("Please enter a contact number.");
       return false;
     }
     else if (!phoneRegex.test(ContactNumber)) {
        // Regular expression to match a typical phone number formas
-      setContactNumberError("Please enter a valid 10-digit contact number.");
+       toast("Please enter a valid 10-digit contact number.");
       return false;
     }
     else{
@@ -82,22 +89,22 @@ export default function RegisterFlightOwner() {
   const validatemail = (Mail) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!Mail) {
-      setEmailError("Please enter an email address.");
+      toast("Please enter an email address.");
       return false;
     }
     else if (!emailRegex.test(Mail)) {
       // Regular expression to match a typical email address format
-      setEmailError("Please enter a valid email address.");
+      toast("Please enter a valid email address.");
       return false;
     }
     return true;
   };
   const validatename = (Name) => {
     if (!Name) {
-      setNameError("Please enter a name");
+      toast("Please enter a name");
       return false;
     } else if (!/[^a-zA-Z]/.test(Name)) {
-      setNameError("Please enter a valid passenger name");
+      toast("Please enter a valid name");
       return false;
     } else {
       setNameError("");
@@ -108,13 +115,13 @@ export default function RegisterFlightOwner() {
     // Regular expression to match only digits and characters
     const regExp = /^[a-zA-Z0-9]+$/;
     if (!BusinessRegistration) {
-      setBusinessRegistrationError("Please fill this field.");
+      toast("Please fill this field.");
       return false;
     } else if (!regExp.test(BusinessRegistration)) {
-      setBusinessRegistrationError("Business RegNo should only comprise digits and characters.");
+      toast("Business RegNo should only comprise digits and characters.");
       return false;
     }else if (BusinessRegistration.length!=10) {
-      setBusinessRegistrationError("Business RegNo should contain exactly 10 digits.");
+      toast("Business RegNo should contain exactly 10 digits.");
       return false;
     }
     else {
@@ -126,8 +133,9 @@ export default function RegisterFlightOwner() {
   //till here
   var flightOwner={}
   var Register =(e)=>{
+    
     if(!name || !email || !contactNumber || !address || !businessRegistration){
-      setRegisterFormError("Fill the above fields");
+      toast("Fill the required fields");
       return;
     }
     if (validatename(name) && validatemail(email) && validatecontNumber(contactNumber) && validateBusinessRegistration(businessRegistration)){
@@ -161,7 +169,7 @@ export default function RegisterFlightOwner() {
         setRegisterMessage(true)
       })
       .catch(err=>{console.log(err)
-        setRegisterFormError("Enter all required details");})
+        toast("Enter all required details");})
   }
 }
   function DisplayUsernamePassword() {
@@ -174,11 +182,11 @@ export default function RegisterFlightOwner() {
       return
     }
     if(!username || !password){
-      setFormError("Fill the above fields");
+      toast("Fill the above fields");
       return;
     }
     if(password!=confirmPassword){
-      setFormError("Password and confirm password does not matched")
+      toast("Password and confirm password does not matched")
       return;
     }
     setFormError("");
@@ -257,6 +265,7 @@ export default function RegisterFlightOwner() {
         </div>
       {registerMessage && <RegisteredSuccessfully className="register-successfully-div"/>}
       </div>
+      <ToastContainer />
     </div>
   );
 }

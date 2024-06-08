@@ -5,6 +5,10 @@ import keyimg from '../../Assets/Images/key.png'
 import RegisteredSuccessfully from "../RegisteredSuccessfullyMsg/RegisteredSuccessfully";
 import Registeruserimg from "./Images/image.png";
 
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+
 export default function RegisterUser() {
   const [displayUsernamePasswordDiv, setDisplayUsernamePassword] = useState(true);
   const [displayOtherDetailsDiv, setDisplayOtherDetailsDiv] = useState(false);
@@ -29,10 +33,10 @@ export default function RegisterUser() {
 
   const validateUsername = (Name) => {
     if (!Name) {
-      setUserNameError("Please enter a name");
+      toast("Please enter a Username");
       return false;
     } else if (/^[^a-zA-Z]/.test(Name)) {
-      setUserNameError("Name should start with a letter");
+      toast("Username should start with a letter");
       return false;
     } else {
       setUserNameError("");
@@ -41,15 +45,15 @@ export default function RegisterUser() {
   };
   const validatepassword = (Password) => {
     if (!Password) {
-      setPasswordError("Please enter a password");
+      toast("Please enter a password");
       return false;
     } 
     else if(Password.length<6){
-      setPasswordError("Password must be more than 6 character")
+      toast("Password must be more than 6 character")
       return false;
     }
     else if (/^[a-zA-Z0-9]+$/.test(Password)) {
-      setPasswordError("Password should be alphanumeric");
+      toast("Password should be alphanumeric");
       return false;
     } else {
       setPasswordError("");
@@ -61,10 +65,10 @@ export default function RegisterUser() {
     const phoneRegex = /^\d{10}$/; // This assumes a 10-digit phone number
   
     if (!ContactNumber) {
-      setContactNumberError("Please enter a contact number.");
+      toast("Please enter a contact number.");
       return false;
     } else if (!phoneRegex.test(ContactNumber)) {
-      setContactNumberError("Please enter a valid 10-digit contact number.");
+      toast("Please enter a valid 10-digit contact number.");
       return false;
     } else {
       setContactNumberError("");
@@ -76,10 +80,10 @@ export default function RegisterUser() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   
     if (!Mail) {
-      setEmailError("Please enter an email address.");
+      toast("Please enter an email address.");
       return false;
     } else if (!emailRegex.test(Mail)) {
-      setEmailError("Please enter a valid email address.");
+      toast("Please enter a valid email address.");
       return false;
     }
     else
@@ -92,10 +96,10 @@ export default function RegisterUser() {
   
   const validatename = (Name) => {
     if (!Name) {
-      setNameError("Please enter a name");
+      toast("Please enter a name");
       return false;
-    } else if (/[^a-zA-Z]/.test(Name)) {
-      setNameError("Please enter a valid  name");
+    } else if (!/[^a-zA-Z]/.test(Name)) {
+      toast("Please enter a valid  name");
       return false;
     } else {
       setNameError("");
@@ -108,6 +112,7 @@ export default function RegisterUser() {
 
   var Register = (e) => {
 
+    var check = false;
 
     if (validatename(name) && validatemail(email) && validatecontNumber(phone))
     {
@@ -115,17 +120,13 @@ export default function RegisterUser() {
       setEmailError("");
       setContactNumberError("");
       setRegisterFormError("");
+      check = true;
     }
     else 
     {
-      setRegisterFormError("fill the required fields for registration")
+      toast("fill the required fields for registration")
     }
-
-    if (!name || !email || !phone) 
-    {
-      setRegisterFormError("Fill the above fields");
-      return;
-    }
+    
 
     e.preventDefault();
     user.username = username;
@@ -143,7 +144,7 @@ export default function RegisterUser() {
       body: JSON.stringify(user)
     }
 
-    if (validatename(name) && validatecontNumber(phone) && validatemail(email)){
+    if (check){
         fetch("https://localhost:7035/api/User", RequestOption)
         .then(res => res.json())
         .then(res => {
@@ -152,7 +153,7 @@ export default function RegisterUser() {
         })
         .catch(err => {
           console.log(err)
-          alert("User already exists")
+          toast("User already exists")
         })
     }
   
@@ -170,15 +171,15 @@ export default function RegisterUser() {
       return;
     }
     if (!username || !password) {
-      setFormError("Fill the above fields");
+      toast("Fill the above fields");
       return;
     }
     if (password != confirmPassword) {
-      setFormError("Password and confirm password does not matched")
+      toast("Password and confirm password does not matched")
       return;
     }
     if (password.length < 6) {
-      alert("Password must be more than 6 character")
+      toast("Password must be more than 6 character")
       return
     }
     setFormError("");
@@ -247,6 +248,7 @@ export default function RegisterUser() {
         </div>
         {registerMessage && <RegisteredSuccessfully className="register-successfully-div" />}
       </div>
+      <ToastContainer />
     </div>
   )
 }

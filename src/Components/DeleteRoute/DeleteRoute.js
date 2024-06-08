@@ -6,15 +6,39 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 
 export default function DeleteRoute() {
-  var [sourceAirport, setSourceAirport] = useState();
-  var [destinationAirport, setDestinationAirport] = useState();
+  var [sourceAirport, setSourceAirport] = useState("0");
+  var [destinationAirport, setDestinationAirport] = useState("0");
   var [airports, setAirports] = useState([]);
   var routeDetail = {};
 
   var DeleteFlightRoute = (e) => {
+
+    e.preventDefault();
+
+    if(sourceAirport === '0' && destinationAirport === '0')
+    {
+      toast("Enter Source and Destination Airport");
+      return;
+    }
+    else if(sourceAirport === '0')
+    {
+      toast("Enter Source Airport");
+      return;
+    }
+    else if(destinationAirport === '0')
+    {
+      toast("Enter Destination Airport");
+      return;
+    }
+    else if(destinationAirport === sourceAirport)
+    {
+      toast("Source and Destination Airport can't be same");
+      return;
+    }
+
     const confirmDelete = window.confirm(`Are you sure you want to remove the route?`);
     if (confirmDelete) {
-      e.preventDefault();
+     
       routeDetail.sourceAirportId = parseInt(sourceAirport);
       routeDetail.destinationAirportId = parseInt(destinationAirport);
       console.log(routeDetail);

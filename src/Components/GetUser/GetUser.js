@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react'
 import './GetUser.css'
 import axios from 'axios';
 
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+
 export default function GetUser() {
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -13,10 +17,11 @@ export default function GetUser() {
       headers: { 'Authorization': 'Bearer ' + token }
     };
 
-    axios.get("https://localhost:7035/api/AdminDashboard/Users/AllCustomers", httpHeader)
+     fetch("https://localhost:7035/api/AdminDashboard/Users/AllCustomers", httpHeader)
+      .then((res) => res.json())
       .then((res) => {
         console.log(res.data);
-        setUsers(res.data);
+        setUsers(res);
       })
       .catch((err) => {
         console.log(err);
@@ -32,11 +37,11 @@ export default function GetUser() {
         headers: { "Content-Type": "application/json", 'Authorization': 'Bearer ' + token },
       };
 
-      fetch(`https://localhost:7035/api/AdminDashboard/DeleteUserByUsername=${username}`, RequestOptions)
+      fetch(`https://localhost:7035/api/AdminDashboard/DeleteUserByUsername?username=${username}`, RequestOptions)
         .then((res) => res.json())
-        .then((res) => { console.log(res) })
+        .then((res) => { toast("User deleted successfully")})
         .catch((err) => {
-          alert("Something went wrong");
+          toast("Something went wrong, user not deleted");
         });
     }
   }
@@ -61,11 +66,12 @@ export default function GetUser() {
       <div className='pagination'>
         {users.length > usersPerPage && (
           <>
-            <button onClick={() => paginate(currentPage - 1)}>Previous</button>
+            <button onClick={() => {currentPage > 1 && paginate(currentPage - 1)}}>Previous</button>
             <button onClick={() => paginate(currentPage + 1)}>Next</button>
           </>
         )}
       </div>
+      <ToastContainer />
     </div>
   )
 }

@@ -11,6 +11,11 @@ import SearchedFlightResult from "../SearchedFlightResult/SearchedFlightResult";
 import Services from "../Offers/Services";
 import AboutPage from "../AboutPage/AboutPage";
 
+
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+
 export default function HomeComponent() {
   const [isRoundtrip, setIsRoundtrip] = useState(false);
   const currentDateTime = new Date().toISOString().split('T')[0];
@@ -40,9 +45,20 @@ export default function HomeComponent() {
 
     console.log(Origin, Destination, dateOfJourney)
     if (!Origin || !Destination || !dateOfJourney) {
-      setErrorOrigin(!Origin ? "Please fill in this field" : "");
-      setErrorDestination(!Destination ? "Please fill in this field" : "");
-      setErrorDate(!dateOfJourney ? "Please fill in this field" : "");
+
+      if(!Origin)
+      {
+        toast("Please fill in Origin field")
+      }
+      if(!Destination)
+      {
+        toast("Please fill in Destination field")
+      }
+      if(!dateOfJourney)
+      {
+        toast("Please fill in dateOfJourney field")
+      }
+      
       return;
     } else {
       setErrorOrigin("");
@@ -50,7 +66,7 @@ export default function HomeComponent() {
       setErrorDate("");
     }
     if (Adult > 5 || Child > 5) {
-      setErrorPassengers("Enter adult and child value less than 5");
+      toast("Enter adult and child value less than 5");
       return;
     } else {
       setErrorPassengers("");
@@ -59,7 +75,7 @@ export default function HomeComponent() {
     const currentDate = new Date(currentDateTime);
 
     if (selectedDate < currentDate) {
-      setErrorDate("Date cannot be less than current date");
+      toast("Date cannot be less than current date");
       return;
     }
     else {
@@ -102,7 +118,7 @@ export default function HomeComponent() {
       .then(res => {
         console.log(res);
         if (res.length === 0) {
-          alert("No flights available")
+          toast("No flights available")
           return
         }
         else {
@@ -247,6 +263,7 @@ export default function HomeComponent() {
       <Services />
       <AboutPage />
       <Footer />
+      <ToastContainer />
     </div>
   );
 }

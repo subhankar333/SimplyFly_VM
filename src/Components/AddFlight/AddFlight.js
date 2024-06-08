@@ -37,7 +37,7 @@ export default function AddFlight() {
   {
     if(noOfSeats <= 0 || noOfSeats > 120)
     {
-      setSeatError("Total Seats can't be negative and greater than 120");
+      toast("Total Seats can't be negative and greater than 120");
       return false;
     }
     else 
@@ -59,7 +59,7 @@ export default function AddFlight() {
     }
     else if(!validateSeat(totalSeats))
     {
-      setSeatError("Total Seats can't be negative and greater than 120");
+      toast("Total Seats can't be negative and greater than 120");
       return;
     }
       //changed here

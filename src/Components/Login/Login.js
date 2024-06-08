@@ -5,6 +5,11 @@ import key from "../../Assets/Images/key.png";
 import { Link, useNavigate } from "react-router-dom";
 import loginImage from "./Images/image.png";
 
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+
+
 export default function Login() {
 
   const navigate = useNavigate();
@@ -20,14 +25,14 @@ export default function Login() {
   const validateUsername = (username) => {
     if(!username)
     {
-      setUsernameError("Please enter username");
+      toast("Please enter username");
       return false;
     }
     else if (/^[^a-zA-Z0-9]/.test(username)) {
-      setUsernameError('Username should not start with a special character.');
+      toast('Username should not start with a special character.');
       return false;
     } else if (/^\d/.test(username)) {
-      setUsernameError('Username should not start with a digit.');
+      toast('Username should not start with a digit.');
       return false;
     }
      else 
@@ -40,7 +45,7 @@ export default function Login() {
   const validatePassword = (password) => {
     if(!password)
     {
-       setPasswordError("Please enter password");
+       toast("Please enter password");
        return false;
     }
       
@@ -54,14 +59,18 @@ export default function Login() {
 
   var user = {};
   var Login = (e) => {
+
+    var check = false;
   
 // changed here
     if (validateUsername(Username) && validatePassword(Password)) {
            setUsernameError("");
            setPasswordError("");
+           check = true;
     }
     else {
-      setFormError("Please fix the errors before logging in.")
+      toast("Please fix the errors before logging in.")
+      
     }
   //till here
 
@@ -83,7 +92,8 @@ export default function Login() {
         sessionStorage.setItem("token", res.token);
         sessionStorage.setItem("username", res.username);
         sessionStorage.setItem("role", res.role);
-        alert("Login success - " + res.username);
+        toast(`Login success - ${res.username}. Click here to Continue`, {
+          onClick: () => navigate("/searchFlightResult")});
 
         if (sessionStorage.getItem("role") == "flightowner") {
           console.log("flightOwner");
@@ -162,9 +172,9 @@ export default function Login() {
       .catch((err) => {
         console.log(err);
         // Changed here
-        if(validateUsername(Username) && validatePassword(Password))
+        if(Username && Password)
         {
-          setFormError("Invalid Credentials ");
+          toast("Invalid Credentials ");
         }
         // till here
       });
@@ -214,6 +224,7 @@ export default function Login() {
           </form>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }

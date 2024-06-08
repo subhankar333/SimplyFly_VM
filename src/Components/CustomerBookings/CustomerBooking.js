@@ -7,6 +7,9 @@ import jsPDF from 'jspdf';
 import boardingPassImage from "./Images/image.png";
 import JsBarcode from 'jsbarcode';
 
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 
 export default function CustomerBooking() {
@@ -17,18 +20,23 @@ export default function CustomerBooking() {
   const [bookingsPerPage, setBookingsPerPage] = useState();
 
   // console.log(window.innerWidth);
-
-  useState(() => {
-    fetch(`https://localhost:7035/api/CustomerDashboard/GetBookingByCustomerId?customerId=${userId}`)
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
-        const pastBookings = res.filter(a => new Date(a.booking.schedule.departure) > new Date());
-        const sortedBookings = pastBookings.sort((a, b) => new Date(b.booking.bookingTime) - new Date(a.booking.bookingTime));
-        setBookings(sortedBookings);
+    
+      useState(() => {
+        if(userId)
+        {
+          fetch(`https://localhost:7035/api/CustomerDashboard/GetBookingByCustomerId?customerId=${userId}`)
+          .then((res) => res.json())
+          .then((res) => {
+            console.log(res);
+            
+            const pastBookings = res.filter(a => new Date(a.booking.schedule.departure) > new Date());
+            const sortedBookings = pastBookings.sort((a, b) => new Date(b.booking.bookingTime) - new Date(a.booking.bookingTime));
+            setBookings(sortedBookings);
+          });
+        }
       });
-  });
 
+  
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
@@ -93,11 +101,11 @@ export default function CustomerBooking() {
         .then(res => res.json())
         .then(res => {
           console.log(res);
-          alert('Booking cancelled successfully');
+          toast('Booking cancelled successfully');
         })
         .catch(err => {
           console.error('Error:', err);
-          alert('Error canceling booking.');
+          toast('Error canceling booking.');
         });
 
     }
@@ -233,6 +241,7 @@ export default function CustomerBooking() {
             </div>
 
       </div>
+      <ToastContainer />
     </div>
   )
 }

@@ -1,12 +1,21 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './GetFlightOwner.css'
 import axios from 'axios'
 
+
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+import { Toast } from 'bootstrap';
+
+
 export default function GetFlightOwner() {
   var [flightOwner, setFlightOwner] = useState([])
+  const [currentPage, setCurrentPage] = useState(1);
+  const [usersPerPage] = useState(5);
 
 
-  useState(() => {
+  useEffect(() => {
     const token = sessionStorage.getItem('token')
     const httpHeader = {
       headers: { 'Authorization': 'Bearer ' + token }
@@ -34,17 +43,23 @@ export default function GetFlightOwner() {
 
       fetch(`https://localhost:7035/api/AdminDashboard/DeleteUserByUsername?username=${username}`, RequestOptions)
         .then((res) => res.json)
-        .then((res) => { console.log(res) })
+        .then((res) => {toast("Flightowner deleted successfully") })
         .catch((err) => {
-          alert("Something went wrong");
+          Toast("Something went wrong");
         });
     }
   }
 
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = flightOwner.slice(indexOfFirstUser, indexOfLastUser);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <div className='getflightOwner-div'>
       <div className='get-flightOwner-div'>
-        {flightOwner.map((user, index) => (
+        {currentUsers.map((user, index) => (
           <div key={index} className="flightOwner-list-div">
             <div className='user-name-div flightOwner-row'><p>Name : </p>{user.name}</div>
             <div className='user-email-div flightOwner-row'><p>Email : </p>{user.email}</div>
@@ -53,6 +68,18 @@ export default function GetFlightOwner() {
             <div className='delete-user-btn' onClick={() => { DeleteFlightOwner(user.username) }}>X</div>
           </div>))}
       </div>
+             
+      <div className="pagination-container">
+        <div className='pagination'>
+          {(flightOwner.length > usersPerPage && currentPage > 1) && (
+            <button onClick={() => paginate(currentPage - 1)}>Previous</button>
+          )}
+          {flightOwner.length > indexOfLastUser && (
+            <button onClick={() => paginate(currentPage + 1)}>Next</button>
+          )}
+        </div>
+      </div>
+      <ToastContainer />
     </div>
   )
 }

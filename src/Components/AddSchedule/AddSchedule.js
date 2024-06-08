@@ -22,6 +22,8 @@ export default function AddSchedule() {
 
   var [flights, setFlights] = useState([]);
 
+  var ownerId = sessionStorage.getItem("ownerId");
+
   useState(() => {
     const token = sessionStorage.getItem("token");
     const httpHeader = {
@@ -172,7 +174,7 @@ export default function AddSchedule() {
             onChange={handleFlightNumberChange}
           >
             <option value="0">--Select flight--</option>
-            {flights.map((flight) => (
+            {flights.filter(f => f.flightOwnerId == ownerId).map((flight) => (
               <option key={flight.flightNumber} value={flight.flightNumber}>
                 {flight.flightNumber}
               </option>

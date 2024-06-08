@@ -1,9 +1,18 @@
 .booking-btn-div,.cancel-booking-btn-div{
-height: 20%;
+   height: 20%;
 }
+
 
 @media (max-width: 900px) {
     .manage-booking-sidebar{
 display: none;
+    }
+
+    .booking-passenger-details{
+        width: 90% !important;
+    }
+
+    .delete-user-btn{
+        margin-left: 109% !important;
     }
 }

@@ -73,9 +73,9 @@
         width: 100%;
     }
 
-    .account-sidebar{
-        width: 120% !important;
-        margin-left: 30% !important;
+    #account-sidebar{
+        width: 90% !important;
+        margin-left: 40% !important;
     }
 
     .sidebar-container{

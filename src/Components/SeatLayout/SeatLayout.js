@@ -7,12 +7,20 @@ import paymentsImg from "./Images/image.png";
 import planelayout from "./Images/planelayout.png";
 import seatlayout from "./Images/seatlayout.png";
 
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+import { Toast } from "bootstrap";
+import { useNavigate } from "react-router-dom";
+
 export default function SeatLayout() {
   const [seats, setSeats] = useState([]);
   const [bookedSeats, setBookedSeats] = useState([]);
   var [cardNumber, setCardNumber] = useState();
   var [cvv, setCvv] = useState();
   var [expiry, setExpiry] = useState();
+
+  var navigate = useNavigate();
 
   // changed here
   const [cardNumberError, setcardNumberError] = useState('');
@@ -23,11 +31,11 @@ export default function SeatLayout() {
   const validatecardNumber = (cardnumber) => {
     if(!cardnumber)
     {
-      setcardNumberError("Please enter cardNumber");
+      toast("Please enter cardNumber");
       return false;
     }
     else if (cardnumber.length !== 16) {
-      setcardNumberError('Card number should contain exactly 16 characters.');
+      toast('Card number should contain exactly 16 characters.');
       return false;
     }
      else 
@@ -38,7 +46,7 @@ export default function SeatLayout() {
   };
   const validexpiry = (Expiry) => {
     if (!Expiry) {
-      setExpiryError("Please enter an expiry date");
+      toast("Please enter an expiry date");
       return false;
     }
     const today = new Date();
@@ -51,17 +59,17 @@ export default function SeatLayout() {
       return true;
     } else if (Expiry === '' || /^\d{0,2}\/$/.test(Expiry)) {
       // Allow empty string or partially entered MM/
-      setExpiryError("Invalid Expiry date");
+      toast("Invalid Expiry date");
       return false;
     }
   };
   
   const validcvv = (CVV) => {
     if (!CVV) {
-      setcvvError("Please enter CVV");
+      toast("Please enter CVV");
       return false;
     } else if (!/^\d{3}$/.test(CVV)) {
-      setcvvError("CVV should contain exactly 3 digits.");
+      toast("CVV should contain exactly 3 digits.");
       return false;
     } else {
       setcvvError("");
@@ -86,7 +94,7 @@ export default function SeatLayout() {
         return;
       } else {
         if (selectedSeatNumbers.length + 1 > passengersIds.length) {
-          alert(`You can select only ${passengerIds.length} seats.`)
+          toast(`You can select only ${passengerIds.length} seats.`)
           return
         }
         setSelectedSeatNumbers([...selectedSeatNumbers, seatNumber]);
@@ -131,7 +139,14 @@ export default function SeatLayout() {
 
   var [payments, setPayments] = useState(false);
   function Payments() {
-    setPayments(true);
+    if(selectedSeatNumbers.length > 0)
+    {
+      setPayments(true);
+    }
+    else 
+    {
+      toast("Please select seats before proceeding payment");
+    }
     console.log(passengerIds);
   }
 
@@ -156,8 +171,14 @@ export default function SeatLayout() {
   };
 
   function BookTicket() {
+
     if (!cardNumber || !cvv || !expiry) {
-      alert("Please enter card details")
+      toast("Please enter card details")
+      return;
+    }
+
+    if (!validatecardNumber(cardNumber) || !validexpiry(expiry) || !validcvv(cvv)) {
+      toast('Please enter valid details.');
       return;
     }
 
@@ -182,11 +203,13 @@ export default function SeatLayout() {
       .then((res) => res.json())
       .then((res) => {
         console.log("Response:", res);
-        alert("Booking added successfully");
+        toast(`Booking added successfully. Click here to continue`, {
+          onClick: () => navigate("/user/userAccount")
+        });
       })
       .catch((err) => {
         console.error("Error:", err);
-        alert("Error adding booking");
+        toast("Error adding booking");
       });
 
   }
@@ -220,9 +243,9 @@ export default function SeatLayout() {
           </div>
          
         </div>
-        <button onClick={Payments} className="pay-btn">
+        { bookingDetails.selectedSeats !== null && <button onClick={Payments} className="pay-btn">
           Make Payment
-        </button>
+        </button>}
       </div>
       {payments && (
         <div className="payments">
@@ -294,6 +317,7 @@ export default function SeatLayout() {
           </div>
         </div>
       )}
+      <ToastContainer />
     </div>
   );
 }

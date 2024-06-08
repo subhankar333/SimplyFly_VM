@@ -8,6 +8,10 @@ import { useNavigate } from "react-router-dom";
 import { addPassenger } from "../../PassengerSlice";
 import Footer from "../Footer/Footer";
 
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+
 export default function BookingDetails() {
 
   var selectedFlight = useSelector((state) => state.selectedFlight);
@@ -30,10 +34,10 @@ export default function BookingDetails() {
 
   const validatename = (Name) => {
     if (!Name) {
-      setNameError("Please enter a name");
+      toast("Please enter a name");
       return false;
-    } else if (!/[^a-zA-Z]/.test(Name)) {
-      setNameError("Please enter a valid passenger name");
+    } else if (Name && !/[^a-zA-Z]/.test(Name)) {
+      toast("Please enter a valid passenger name");
       return false;
     } else {
       setNameError("");
@@ -42,10 +46,10 @@ export default function BookingDetails() {
   };
   const validateage = (Age) => {
     if (!Age) {
-      setAgeError("Please enter Age");
+      toast("Please enter Age");
       return false;
-    } else if (isNaN(Age) || Age < 0) {
-      setAgeError("Please enter a valid number");
+    } else if (Age && (isNaN(Age) || Age < 0)) {
+      toast("Please enter a valid age");
       return false;
     } else {
       setAgeError("");
@@ -54,13 +58,16 @@ export default function BookingDetails() {
   };
   const validatePassword = (PassportNumber) => {
     if (!PassportNumber) {
-      setPassportNumberError("Please enter Passport no");
+      toast("Please enter Passport no");
+      return false;
+    }else if (isNaN(passportNumber)) {
+      toast("Passport no should be a number");
       return false;
     } else if (PassportNumber.length < 8) {
-      setPassportNumberError("It should contain atleast eight characters");
+      toast("It should contain atleast eight characters");
       return false;
     } else if (PassportNumber.length > 8) {
-      setPassportNumberError("It should n't exceed eight characters");
+      toast("It shouldn't exceed eight characters");
       return false;
     } 
     else if (PassportNumber.length == 8) {
@@ -90,6 +97,9 @@ export default function BookingDetails() {
   }
 
   const getAirlineImage = (airline) => {
+    if(!airline){
+      return;
+    }
     airline = airline.toLowerCase();
     switch (airline) {
       case "indigo":
@@ -107,34 +117,29 @@ export default function BookingDetails() {
   var totalPassengers = parseInt(getSearchDetails.Adult) + parseInt(getSearchDetails.Child);
 
   function AddPassenger() {
+
+        // Reset errors
+        setNameError('');
+        setAgeError('');
+        setPassportNumberError('');
+        setFormError('');
+
+
     var totalAddedPassengers = passengers.length;
     if (totalAddedPassengers >= totalPassengers) {
-      alert("You can add only " + totalPassengers + " passengers");
+      toast("You can add only " + totalPassengers + " passengers");
       return;
     }
 
     //change here
-    if (validatename(name) && validateage(age) && validatePassword(passportNumber)){
-      setNameError("");
-      setAgeError("");
-      setPassportNumberError("");
-    }
-    if(validatename(name))
-    {
-      setNameError("");
-    }
-    if(validateage(age))
-    {
-      setAgeError("");
-    }
-    if(validatePassword(passportNumber))
-    {
-      setPassportNumberError("");
+    if (!validatename(name) || !validateage(age) || !validatePassword(passportNumber)) {
+      toast('Please fix the errors before adding passenger.');
+      return;
     }
     //till here
     if (!name || !age || !passportNumber) {
-      setFormError("Please fix the errors before adding passener.")
-      return
+      toast("Please fix the errors before adding passener.")
+      return;
     }
 
 
@@ -142,7 +147,7 @@ export default function BookingDetails() {
       (passenger) => passenger.passportNo === passportNumber
     );
     if (isDuplicate) {
-      setFormError("Passenger with same passport number already added");
+      toast("Passenger with same passport number already added");
       return;
     }
 
@@ -153,6 +158,7 @@ export default function BookingDetails() {
     };
 
     if (validatename(name) && validateage(age) && validatePassword(passportNumber)){
+    toast("Passenger added successfully");
     setPassengers([...passengers, passenger]);
     setFormError("");
     }
@@ -168,6 +174,7 @@ export default function BookingDetails() {
     const updatedPassengers = [...passengers];
     updatedPassengers.splice(index, 1);
     setPassengers(updatedPassengers);
+    toast("Passenger removed successfully");
   }
 
   const handlePassengerNameChange = (e) => {
@@ -183,7 +190,7 @@ export default function BookingDetails() {
   function BookSeats() {
     var totalAddedPassengers = passengers.length;
     if (totalAddedPassengers < totalPassengers) {
-      alert(`Add ${totalPassengers - totalAddedPassengers} more passengers`);
+      toast(`Add ${totalPassengers - totalAddedPassengers} more passengers`);
       return;
     }
     const fetchPromises = passengers.map((passenger) => {
@@ -203,7 +210,7 @@ export default function BookingDetails() {
           return res.passengerId;
         })
         .catch((err) => {
-          alert("Error adding passenger.");
+          toast("Error adding passenger.");
         });
     });
 
@@ -342,6 +349,7 @@ export default function BookingDetails() {
       <button onClick={BookSeats} className="book-seats-btn">
         Book Seats
       </button>
+      <ToastContainer />
     </div>
   );
 }

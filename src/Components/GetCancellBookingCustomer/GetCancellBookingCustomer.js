@@ -87,7 +87,7 @@ export default function GetCancelBookings() {
     const minutes = Math.floor(
       (timeDifference % (1000 * 60 * 60)) / (1000 * 60)
     );
-    return hours + ":" + minutes + " hours";
+    return hours + ":" + minutes + "";
   }
 
   const getAirlineImage = (airline) => {

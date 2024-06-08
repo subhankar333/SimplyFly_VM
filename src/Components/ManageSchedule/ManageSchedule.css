@@ -48,6 +48,18 @@
 .options-div{
     display: none;
 }
+
+#btn-container{
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  
+}
+
+#btn-container button{
+  width: 40%;
+}
+
 @media (max-width: 900px) {
     .container-main{
         margin-top: 25%;
@@ -101,6 +113,25 @@
     margin-top: 30% !important;
   }
 
+  .update-schedule-div img{
+    width: 20px;
+    height: auto;
+    margin-left: 40%;
+  }
+
+  .update-schedule-div b{
+    font-size: 13px;
+  }
+
+  /* .edit-img{
+    width: 2px !important;
+    height: auto !important;
+  } */
+
+  #Fli-det{
+    margin-top: -20px !important;
+  }
+
   .date-div{
     margin-top: 20% !important;
     gap: 20% !important;
@@ -113,4 +144,22 @@
   .destination-airport-div select{
     width: 88px !important;
   } 
+
+  .update-schedule-options{
+    width: 90% !important;
+  }
+
+  .update-option-btn{
+    width: 100% !important;
+  }
+
+  .update-schedule-flight select{
+    margin-left: 60% !important;
+    width: 60% !important;
+  }
+
+  .update-schedule-flight button, .update-schedule-dateTime button{
+    padding: 0px !important;
+    width: 40% !important;
+  }
 }

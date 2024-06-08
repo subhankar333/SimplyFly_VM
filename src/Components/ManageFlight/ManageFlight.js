@@ -39,7 +39,7 @@ export default function ManageFlight() {
         <div className='sidebar-container'>
         <div className="dashboard-heading">
             <img src={useronline} className="user-online" style={{ display: "block", height: "50%", width:"50%",marginBottom: "10px",marginLeft:"70px" }}/>
-          <h2 style={{ fontSize: "20px", color: "white",textAlign: "center"}}>Dashboard</h2>
+            <h2 style={{ fontSize: "20px", color: "white",textAlign: "center"}}>Dashboard</h2>
           </div>
             <div className="more-profile-option"><img src={leftArrow} className="right-arrow" onClick={DisplayMain}/></div>
             <div className="sidebar-option" onClick={()=>{

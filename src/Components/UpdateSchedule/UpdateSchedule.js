@@ -182,7 +182,7 @@ export default function UpdateSchedule() {
           {currentSchedules.map((schedule, index) => (
             <div key={index} className='schedule-list-div'>
               <div className='schedule-flight-detail'>
-                <div>
+                <div id='Fli-det'>
                   <b>Flight Number :</b> {schedule.flightNumber}
                 </div>
                 <div>
@@ -249,12 +249,16 @@ export default function UpdateSchedule() {
                   </option>
                 ))}
               </select>
-              <button className='update-schedule-FLight-btn' onClick={UpdateScheduleFlight}>
-                Update Flight
-              </button>
-              <button className='update-schedule-FLight-btn' onClick={Cancel}>
-                Cancel
-              </button>
+              <div id='btn-container'>
+
+                <button className='update-schedule-FLight-btn' onClick={UpdateScheduleFlight}>
+                  Update Flight
+                </button>
+                <button className='update-schedule-FLight-btn' onClick={Cancel}>
+                  Cancel
+                </button>
+
+              </div>
             </div>
           )}
 
@@ -283,12 +287,16 @@ export default function UpdateSchedule() {
                   min={minDateTime}
                 />
               </div>
-              <button className='update-schedule-FLight-btn' onClick={UpdateScheduleDate}>
-                Update Flight
-              </button>
-              <button className='update-schedule-FLight-btn' onClick={Cancel}>
-                Cancel
-              </button>
+              <div id='btn-container'>
+
+                <button className='update-schedule-FLight-btn' onClick={UpdateScheduleDate}>
+                  Update Flight
+                </button>
+                <button className='update-schedule-FLight-btn' onClick={Cancel}>
+                  Cancel
+                </button>
+
+              </div>
             </div>
           )}
         </div>

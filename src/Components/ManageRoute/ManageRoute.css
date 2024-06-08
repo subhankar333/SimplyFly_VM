@@ -1,5 +1,3 @@
-
-
 .container-body{
     height: 100vh;
     width: 100vw;
@@ -48,6 +46,7 @@
     width: 80%;
 }
 
+
 @media (max-width: 900px) {
     
     .options-div{
@@ -65,15 +64,19 @@
         margin-top: 32px;
     }
 
+    .add-route-div label{
+        font-size: 9px;
+    }
+
     .add-route-div select{
-        width: 70% !important;
+        width: 100% !important;
     }
 
     .add-route-div input{
-        width: 70% !important;
+        width: 100% !important;
     }
 
-    .source-airport-div{
+    .source-airport-div,.destination-airport-div{
         gap: 20px !important;
     }
 
@@ -90,4 +93,16 @@
     .get-route-div{
         margin-top: 32px;
     }
+
+    .destination-airport-div label{
+        margin-top: -10% !important;
+    }
+
+    .select-destination-airport{
+        margin-top: -12% !important;
+        margin-right: 400px !important;
+        padding: 8px !important;
+    }
+
+
 }

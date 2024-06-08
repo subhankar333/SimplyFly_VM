@@ -26,6 +26,9 @@ import CustomerBookingHistory from "./Components/CustomerBookings/CustomerBookin
 import ManageBooking from "./Components/ManageBookings/ManageBooking";
 import UpdatePassword from "./Components/UpdatePassword/UpdatePassword";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function App() {
   return (
     <BrowserRouter>

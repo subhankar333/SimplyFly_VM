@@ -20,3 +20,49 @@
     cursor: pointer;
     background-color:#9ad2fb;
 }
+
+@media (max-width: 900px) {
+    
+    .options-div{
+        display: block;
+    }
+
+    .sidebar-options{
+        width: 90% !important;
+        height:  auto;
+    }
+
+    .account-sidebar{
+        width: 120% !important;
+        margin-left: 30% !important;
+    }
+
+    .sidebar-container{
+       width: 120% !important;
+    }
+
+    .user-list-div{
+        font-size: 16px;
+        width: 150% !important;
+        display: flex;
+        gap: 10px;
+        justify-content: space-evenly;
+    }
+
+    .user-row{
+        width: 280% !important;
+    }
+
+    .flightOwner-list-div{
+        font-size: 16px;
+        width: 130% !important;
+        display: flex;
+        gap: 10px;
+        justify-content: space-evenly;
+        margin-right: -20% !important;
+    }
+
+    .delete-user-btn{
+        
+    }
+}

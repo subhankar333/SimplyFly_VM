@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import "./Profile.css";
 import backImg from "./Images/image.png";
 
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+
 export default function Profile() {
   var [user, setUser] = useState({});
   var userRole = sessionStorage.getItem("role");
@@ -96,11 +100,11 @@ export default function Profile() {
         .then(res => res.json())
         .then(res => {
           console.log(res);
-          alert('Profile updated successfully');
+          toast('Profile updated successfully');
         })
         .catch(err => {
           console.error('Error:', err);
-          alert('Error updating profile.');
+          toast('Error updating profile.');
         });
     }
 
@@ -126,11 +130,11 @@ export default function Profile() {
         .then(res => res.json())
         .then(res => {
           console.log(res);
-          alert('Profile updated successfully');
+          toast('Profile updated successfully');
         })
         .catch(err => {
           console.error('Error:', err);
-          alert('Error updating profile.');
+          toast('Error updating profile.');
         });
 
     }
@@ -157,11 +161,11 @@ export default function Profile() {
         .then(res => res.json())
         .then(res => {
           console.log(res);
-          alert('Profile updated successfully');
+          toast('Profile updated successfully');
         })
         .catch(err => {
           console.error('Error:', err);
-          alert('Error updating profile.');
+          toast('Error updating profile.');
         });
     }
   }
@@ -262,6 +266,7 @@ export default function Profile() {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }

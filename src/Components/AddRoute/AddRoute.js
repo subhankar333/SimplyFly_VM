@@ -6,8 +6,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 
 export default function AddRoute() {
-  var [sourceAirport, setSourceAirport] = useState();
-  var [destinationAirport, setDestinationAirport] = useState();
+  var [sourceAirport, setSourceAirport] = useState("0");
+  var [destinationAirport, setDestinationAirport] = useState("0");
   var [distance, setDistance] = useState();
   var [airports, setAirports] = useState([]);
 
@@ -15,6 +15,38 @@ export default function AddRoute() {
 
   var AddNewRoute = (e) => {
     e.preventDefault();
+
+    if(sourceAirport === '0' && destinationAirport === '0')
+    {
+      toast("Select Source and Destination Airport");
+      return;
+    }
+    else if(sourceAirport === '0')
+    {
+      toast("Select Source Airport");
+      return;
+    }
+    else if(destinationAirport === '0')
+    {
+      toast("Select Destination Airport");
+      return;
+    }
+    else if(sourceAirport === destinationAirport)
+    {
+      toast("Source and Destination Airport can't be same");
+      return;
+    }
+    else if(!distance)
+    {
+      toast("Enter distance between airports");
+      return;
+    }
+    else if(distance < 200)
+    {
+      toast("Distance between airports should be minimum 200 kms");
+      return;
+    }
+
     routeDetail.sourceAirportId = parseInt(sourceAirport);
     routeDetail.destinationAirportId = parseInt(destinationAirport);
     routeDetail.distance = parseFloat(distance);
@@ -64,7 +96,7 @@ export default function AddRoute() {
           >
             <option value="0">--Select airport--</option>
             {airports.map((airport) => (
-              <option key={airport.id} value={airport.airportId}>
+              <option key={airport.airportId} value={airport.airportId}>
                 {airport.city}
               </option>
             ))}
@@ -81,7 +113,7 @@ export default function AddRoute() {
           >
             <option value="0">--Select airport--</option>
             {airports.map((airport) => (
-              <option key={airport.id} value={airport.airportId}>
+              <option key={airport.airportId} value={airport.airportId}>
                 {airport.city}
               </option>
             ))}
@@ -94,7 +126,8 @@ export default function AddRoute() {
           <input
             type="number"
             value={distance}
-            onChange={(e) => setDistance(e.target.value)}
+            onChange={(e) => {setDistance(e.target.value);}}
+            min={200}
           />
         </div>
       </form>

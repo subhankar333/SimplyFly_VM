@@ -1,5 +1,5 @@
 .getflightOwner-div{
-    height: 100%;
+    height: 10%;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -52,3 +52,32 @@ margin: 5px;
     cursor: pointer;
     box-shadow: 2px 2px 8px rgb(71, 70, 70);
 }
+
+.getflightOwner-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center horizontally */
+    margin-top: 300px;
+  }
+  
+  .get-flightOwner-div {
+    width: 80%;
+    display: flex;
+    flex-direction: column; /* To stack flight owners vertically */
+    align-items: center; /* Center horizontally */
+  }
+  
+  .pagination-container {
+    display: flex;
+    justify-content: center; /* Center pagination horizontally */
+    margin-top: 20px;
+  }
+  
+  .pagination {
+    display: flex;
+  }
+  
+  .pagination button {
+    margin: 0 10px;
+  }
+  

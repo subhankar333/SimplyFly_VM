@@ -5,6 +5,10 @@ import keyimg from "../../Assets/Images/key.png";
 import './UpdatePassword.css'
 import { useNavigate } from "react-router-dom";
 
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+
 export default function UpdatePassword() {
   var [username, setUsername] = useState("");
   var [password, setPassword] = useState("");
@@ -14,11 +18,11 @@ export default function UpdatePassword() {
   var userDetails = {}
   function UpdatePassword(e) {
     if (!username || !password || !confirmPassword) {
-      alert("Enter all details");
+      toast("Enter all details");
       return
     }
     if (password != confirmPassword) {
-      alert("password and confirm password does not match")
+      toast("password and confirm password does not match")
       return
     }
     e.preventDefault();
@@ -33,7 +37,7 @@ export default function UpdatePassword() {
     fetch("https://localhost:7035/api/User/UpdatePassword", RequestOption)
       .then(res => res.json)
       .then((res) => {
-        alert("Password updated successfully")
+        toast("Password updated successfully")
         navigate('/login')
       })
   }
@@ -87,6 +91,7 @@ export default function UpdatePassword() {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }
