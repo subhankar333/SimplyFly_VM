@@ -261,7 +261,7 @@ export default function HomeComponent() {
         </div>
       </div>
       <Services />
-      <AboutPage />
+      <br/> <br/>
       <Footer />
       <ToastContainer />
     </div>

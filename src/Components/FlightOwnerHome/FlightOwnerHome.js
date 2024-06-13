@@ -49,7 +49,8 @@ export default function FlightOwnerHome() {
           <h4>Manage Bookings</h4>
         </div>
       </div>
-      <AboutPage />
+      {/* <AboutPage /> */}
+    <br/> <br/> 
       <Footer />
     </div>
   )

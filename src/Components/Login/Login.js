@@ -92,8 +92,7 @@ export default function Login() {
         sessionStorage.setItem("token", res.token);
         sessionStorage.setItem("username", res.username);
         sessionStorage.setItem("role", res.role);
-        toast(`Login success - ${res.username}. Click here to Continue`, {
-          onClick: () => navigate("/searchFlightResult")});
+        alert('Login success ✔ ' + res.username);
 
         if (sessionStorage.getItem("role") == "flightowner") {
           console.log("flightOwner");

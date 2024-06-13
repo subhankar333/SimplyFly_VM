@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 
 export default function AddFlight() {
-  var [flightNumber, setFlightNumber] = useState();
+  // var [flightNumber, setFlightNumber] = useState();
   var [airline, setAirline] = useState();
   var [totalSeats, setTotalSeats] = useState();
   var [basePrice, setBasePrice] = useState();
@@ -53,7 +53,7 @@ export default function AddFlight() {
   var AddFlight = (e) => 
   {
       //changed here
-    if (!flightNumber || !totalSeats || !basePrice) {
+    if (!totalSeats || !basePrice) {
       setIsFilledAll(true);
       return;
     }
@@ -67,7 +67,7 @@ export default function AddFlight() {
       //changed this line
     setIsFilledAll(false);
     e.preventDefault();
-    flightDetails.flightNumber = flightNumber;
+    //flightDetails.flightNumber = flightNumber;
     flightDetails.airline = company;
     flightDetails.totalSeats = parseInt(totalSeats);
     flightDetails.flightOwnerId = parseInt(sessionStorage.getItem('ownerId'))
@@ -100,10 +100,7 @@ export default function AddFlight() {
   return (
     <div className='add-flight-div'>
       <form className='add-flight-form'>
-        <div className='flight-number-div flight-detail-div'>
-          <label htmlFor='flight-number'><b>Flight Number : </b></label>
-          <input type='text' placeholder='Enter flight number' value={flightNumber} onChange={(e) => setFlightNumber(e.target.value)} required />
-        </div>
+        
         <div className='flight-airline-div flight-detail-div'>
           <label htmlFor='flight-airline'><b>Airline : </b></label>
           <input type='text' placeholder='Enter airline' value={company} readOnly />

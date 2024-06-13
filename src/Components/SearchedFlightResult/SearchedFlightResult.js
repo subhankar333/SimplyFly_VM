@@ -241,9 +241,9 @@ export default function SearchedFlightResult() {
         </div>
         <div className="grid">
           <select className="seatClass" value={SeatClass} onChange={handleSeatClassChange}>
-            <option value='economy'>Economy</option>
-            <option value='premiumEconomy'>Premium Economy</option>
-            <option value='businessClass'>Business Class</option>
+            <option value='Economy'>Economy</option>
+            <option value='PremiumEconomy'>Premium Economy</option>
+            <option value='Business'>Business Class</option>
           </select>
         </div>
         <div className="grid">

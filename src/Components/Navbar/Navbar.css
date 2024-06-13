@@ -3,8 +3,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Crete+Round:ital@1&family=Martel&display=swap');
 
 .bg-custom {
-    position: absolute;
+    position: sticky;
     background-color: black;
+
 }
 .navbar-nav {
     width: 20%;

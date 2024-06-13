@@ -263,6 +263,7 @@ export default function SeatLayout() {
                 className="form-control"
                 id="cardNumber"
                 required
+                maxLength="16"
                 value={cardNumber}
                 onChange={handleCardNumberChange}
               />
@@ -295,6 +296,7 @@ export default function SeatLayout() {
                 type="password"
                 className="form-control"
                 id="cvv"
+                maxLength="3"
                 value={cvv}
                 onChange={handleCvvChange}
                 required

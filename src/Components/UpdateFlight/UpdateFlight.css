@@ -1,5 +1,5 @@
 .update-flight-div {
-  margin-top: -28%;
+  margin-top: -78%;
   padding: 10px;
   height: 100%;
   width: 100%;
@@ -44,7 +44,7 @@
     font-size: 18px;
 }
 
-.flightnumber-input-div,.airline-input-div,.seats-input-div{
+.flightnumber-input-div,.airline-input-div,.seats-input-div,.status-input-div{
     width: 100%;
     display: flex;
     justify-content: space-between;
