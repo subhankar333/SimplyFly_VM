@@ -3,7 +3,7 @@
     margin-top: -580px;
 }
 .flight-list-div{
-    width: 98%;
+    width: 100%;
     margin: 10px;
     box-shadow: 2px 2px 10px rgba(69, 67, 67, 0.5);
     background-color: white;
@@ -46,6 +46,58 @@
     margin: 10px;
     font-size: 18px;
 }
+
+.detail-btn{
+    width: 15%;
+    font-size: 15px;
+    font-weight: 400;
+    cursor: pointer;
+    margin-bottom: 10px;
+    margin-right: 8px;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+    background-color: rgb(178, 255, 178);
+}
+
+.flight-detail-view {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 30px;
+    align-items: center;
+    width: 150%;
+    background-color: white;
+    box-shadow: 2px 2px 8px rgb(145, 143, 143);
+  }
+  
+  .flight-airline-detail,
+  .seat-detail-div,
+  .price-detail-div {
+    flex: 1;
+    margin-right: 10px; 
+  }
+  
+  .flight-airline-detail {
+    display: flex;
+    align-items: center;
+  }
+  
+  .airline {
+    display: flex;
+    align-items: center;
+  }
+  
+  .airline h3 {
+    margin-left: 10px; /* Adjust margin as needed */
+  }
+  
+  .flight-number {
+    margin-bottom: 10px; /* Adjust margin as needed */
+  }
+  
 
 @media (max-width: 900px) {
     .flight-list-div{

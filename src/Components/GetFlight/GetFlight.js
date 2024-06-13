@@ -4,11 +4,16 @@ import indigo from "../../Assets/Images/indigo.png";
 import airIndia from "../../Assets/Images/airindia.png";
 import vistara from "../../Assets/Images/vistara.png";
 import "./GetFlight.css";
+import { useNavigate } from "react-router-dom";
 
 export default function GetFlight() {
   const [flights, setFlights] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  var [showFlight, setShowFlight] = useState(false)
+  const [currFlight, setCurrFlight] = useState({})
   const flightsPerPage = 5;
+
+  var navigate = useNavigate();
 
   //Change here
   const flightOwnerId = sessionStorage.getItem("ownerId");
@@ -32,7 +37,12 @@ export default function GetFlight() {
   }, []);
 
   const getAirlineImage = (airline) => {
-    airline = airline.toLowerCase();
+
+    if(airline)
+    {
+      airline = airline.toLowerCase();
+    }
+    
     switch (airline) {
       case "indigo":
         return indigo;
@@ -45,6 +55,15 @@ export default function GetFlight() {
     }
   };
 
+  function handleFlight(flight){
+     setShowFlight(true);
+     setCurrFlight(flight)
+  }
+
+  function handleBack(){
+    setShowFlight(false)
+ }
+
   const indexOfLastFlight = currentPage * flightsPerPage;
   const indexOfFirstFlight = indexOfLastFlight - flightsPerPage;
   const currentFlights = flights.slice(indexOfFirstFlight, indexOfLastFlight);
@@ -53,7 +72,8 @@ export default function GetFlight() {
 
   return (
     <div className="get-flight-div">
-      {currentFlights.map((flight, index) => (
+      {/* console.log(showFlight); */}
+      {!showFlight && currentFlights.map((flight, index) => (
         <div key={index} className="flight-list-div">
           <div className="flight-list">
             <div className="airline">
@@ -68,26 +88,66 @@ export default function GetFlight() {
             </div>
           </div>
           <div className="other-detail-div">
-            <div className="total-seats">
-              Total Seats : <b>{flight.totalSeats}</b>
-            </div>
-            <div className="base-price">
-              Base Price : <b>Rs. {flight.basePrice}</b>
-            </div>
             <div className="status">
               status : <b>{flight.status}</b>
             </div>
+            <div className="detail-btn" onClick={() => handleFlight(flight)}>
+                <b>Details</b>
+            </div>
           </div>
+
+          
+
         </div>
       ))}
-      <div className="pagination">
-        {flights.length > flightsPerPage && (
-          <button onClick={() => paginate(currentPage - 1)}>Previous</button>
-        )}
-        {flights.length > indexOfLastFlight && (
-          <button onClick={() => paginate(currentPage + 1)}>Next</button>
-        )}
-      </div>
+
+      {!showFlight && <div className="pagination">
+            {flights.length > flightsPerPage && (
+              <button onClick={() => paginate(currentPage - 1)}>Previous</button>
+            )}
+            {flights.length > indexOfLastFlight && (
+              <button onClick={() => paginate(currentPage + 1)}>Next</button>
+            )}
+          </div>
+      }
+      
+
+      {showFlight && 
+      <div className="flight-detail-view">
+            <div className="flight-airline-detail">
+              <div className="airline">
+                <img src={getAirlineImage(currFlight.airline)} className="airline-logo"/>
+                <h3>{currFlight.airline}</h3>
+              </div>
+              <div className="flight-number">
+                Flight Number : <b>{currFlight.flightNumber} </b>
+              </div>
+            </div>
+            <div className="seat-detail-div">
+              <div className="flight-number">
+                Economy Seats : <b>{currFlight.totalEconomySeats} </b>
+              </div>
+              <div className="flight-number">
+                Business Seats : <b>{currFlight.totalBusinessSeats} </b>
+              </div>
+              <div className="flight-number">
+                Premium Economy Seats : <b>{currFlight.totalPremiumEconomySeats} </b>
+              </div>
+            </div>
+            <div className="price-detail-div">
+              <div className="flight-number">
+                Economy Seat Price : <b>{currFlight.economySeatPrice} </b>
+              </div>
+              <div className="flight-number">
+                Business Seat Price : <b>{currFlight.businessSeatPrice} </b>
+              </div>
+              <div className="flight-number">
+                Premium Economy Seat Price : <b>{currFlight.premiumEconomySeatPrice}  </b>
+              </div>
+            </div>
+            <div className="detail-btn" onClick={handleBack}>Back</div>
+          
+      </div>}
     </div>
   );
 }
