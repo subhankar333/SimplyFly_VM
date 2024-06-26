@@ -1,67 +1,96 @@
+.update-flight{
+  margin-top: -110%;
+}
+
 .update-flight-div {
-  margin-top: -78%;
-  padding: 10px;
-  height: 100%;
-  width: 100%;
-  box-shadow: 2px 2px 16px rgb(90, 87, 87);
+  margin-top: 20px;
+  padding: 20px;
+  width: 80%;
+  margin: 0 auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
-  background-color: white;
+  background-color: #f0f0f0;
 }
+
 .update-options-div {
-  margin-top: 5%;
   display: flex;
-  height: 10%;
-  justify-content: space-evenly;
+  justify-content: center;
+  margin-bottom: 20px;
 }
-.update-airline-btn,
-.update-seats-btn,
-.update-status-btn {
-  display: inline-block;
-  text-align: center;
+
+.update-options-div > div {
   padding: 10px 20px;
-  margin: 5px;
+  margin: 0 10px;
   cursor: pointer;
-  border: 1px solid #ccc;
+  border: 1px solid #5444dc;
   border-radius: 5px;
   background-color: #5444dc;
-  height: fit-content;
   color: white;
+  font-weight: bold;
 }
 
-.update-airline-btn:hover,
-.update-seats-btn:hover,
-.update-status-btn:hover {
-    cursor: pointer;
-    font-weight: 500;
-  background-color:white;
+.update-options-div > div:hover {
+  background-color: white;
   color: #5444dc;
 }
-.update-div{
-    padding: 20px;
-    margin-top: 5%;
-    height: 60%;
-    width: 80%;
-    font-size: 18px;
+
+.update-div {
+  display: flex;
+  flex-direction: column;
 }
 
-.flightnumber-input-div,.airline-input-div,.seats-input-div,.status-input-div{
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    margin: 10px;
-    
+.form-container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
 }
-.update-flight-btn{
-  margin-top: 10%;
-  margin-left: 45%;
-    font-size: 18px;
+
+.form-container label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-container select,
+.form-container input[type="text"],
+.form-container input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.form-container button {
   width: 40%;
+  margin: 20px auto;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
   background-color: #5444dc;
-  border-color:#5444dc ;
   color: white;
-}
-.update-flight-btn:hover{
   cursor: pointer;
-  background-color:white;
-  color: #5444dc;
+  font-size: 16px;
+}
+
+.form-container button:hover {
+  background-color: #3b36a8;
+}
+
+.error-message {
+  color: red;
+  margin-top: 5px;
+}
+
+.success-message {
+  color: green;
+  margin-top: 5px;
+}
+
+@media (max-width: 768px) {
+  .form-container button {
+    width: 60%;
+  }
 }

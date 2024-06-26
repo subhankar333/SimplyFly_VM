@@ -9,8 +9,9 @@ import { useNavigate } from "react-router-dom";
 export default function GetFlight() {
   const [flights, setFlights] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  var [showFlight, setShowFlight] = useState(false)
-  const [currFlight, setCurrFlight] = useState({})
+  var [showFlight, setShowFlight] = useState(false);
+  const [currFlight, setCurrFlight] = useState({});
+  const [searchQuery, setSearchQuery] = useState('');
   const flightsPerPage = 5;
 
   var navigate = useNavigate();
@@ -64,15 +65,32 @@ export default function GetFlight() {
     setShowFlight(false)
  }
 
+
+ const filteredFlights = flights.filter(flight => flight.flightNumber.toLowerCase().includes(searchQuery.toLowerCase()));
+
   const indexOfLastFlight = currentPage * flightsPerPage;
   const indexOfFirstFlight = indexOfLastFlight - flightsPerPage;
-  const currentFlights = flights.slice(indexOfFirstFlight, indexOfLastFlight);
+  const currentFlights = filteredFlights.slice(indexOfFirstFlight, indexOfLastFlight);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  function handleSearch(){
+     console.log("Performed search query " + searchQuery);
+     console.log(filteredFlights);
+     setCurrentPage(1);
+  }
+
   return (
+    
     <div className="get-flight-div">
       {/* console.log(showFlight); */}
+      {!showFlight && <div className="search-div">
+        <input className="search-container" type="text" placeholder="Search by Flight Number" value={searchQuery}
+          onChange={(e) => {setSearchQuery(e.target.value);setCurrentPage(1)}}
+        />
+        <button id="s-id" onClick={handleSearch}>Search</button>
+      </div>
+      }
       {!showFlight && currentFlights.map((flight, index) => (
         <div key={index} className="flight-list-div">
           <div className="flight-list">
@@ -102,10 +120,10 @@ export default function GetFlight() {
       ))}
 
       {!showFlight && <div className="pagination">
-            {flights.length > flightsPerPage && (
+            {(currentPage > 1 && filteredFlights.length > flightsPerPage) && (
               <button onClick={() => paginate(currentPage - 1)}>Previous</button>
             )}
-            {flights.length > indexOfLastFlight && (
+            {(flights.length > indexOfLastFlight && filteredFlights.length > flightsPerPage) && (
               <button onClick={() => paginate(currentPage + 1)}>Next</button>
             )}
           </div>
@@ -119,7 +137,7 @@ export default function GetFlight() {
                 <img src={getAirlineImage(currFlight.airline)} className="airline-logo"/>
                 <h3>{currFlight.airline}</h3>
               </div>
-              <div className="flight-number">
+              <div className="flight-number" id="check-fli">
                 Flight Number : <b>{currFlight.flightNumber} </b>
               </div>
             </div>

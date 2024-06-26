@@ -74,8 +74,8 @@
 
 #seats {
   border: 1px solid black;
-  height: 60%;
-  width: 80%;
+  height: 70%;
+  width: 130%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -85,14 +85,13 @@
   background-color: red;
   display: flex;
   align-items: center;
-  justify-content: center;
-  border-radius: 8px;
-
+  /* justify-content: center; */
+  /* border-radius: 8px; */
 }
 
 .selected {
   background-color: rgb(55, 170, 93);
-  display: inline-flex;
+  display: flex;
   justify-content: center;
 }
 

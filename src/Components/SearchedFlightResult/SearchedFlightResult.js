@@ -250,7 +250,7 @@ export default function SearchedFlightResult() {
           <button type="button" className="search-flight-btn" onClick={SearchFlight}>
             Search
           </button>
-        </div>
+        </div>   
       </div>
 
       <div className="available-flights-div">

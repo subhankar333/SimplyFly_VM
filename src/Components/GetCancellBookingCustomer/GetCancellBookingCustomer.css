@@ -18,6 +18,11 @@ download-ticket-btn {
   .booking-list-div1{
     width: 150%;
     margin-left: -10%;
+    margin-top: 40px;
+  }
+
+  #prev-btnn, #next-btnn{
+    margin-left: 35% !important;
   }
 
   @media (max-width: 900px){

@@ -69,7 +69,7 @@ export default function Login() {
            check = true;
     }
     else {
-      toast("Please fix the errors before logging in.")
+      // toast("Please fix the errors before logging in.")
       
     }
   //till here
@@ -142,7 +142,7 @@ export default function Login() {
             )
             .catch((err) => console.log(err));
 
-          navigate(-1);
+          navigate('/home');
         } else {
           var getRequestOptions = {
             method: "GET",

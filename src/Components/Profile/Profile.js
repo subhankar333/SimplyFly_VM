@@ -179,7 +179,7 @@ export default function Profile() {
               <form className="update-form">
                 <div className="mb-3">
                   <label htmlFor="name" className="form-label custom-label">
-                    Name :
+                    <b>Name</b> :
                   </label>
                   <input
                     type="text"
@@ -192,7 +192,7 @@ export default function Profile() {
                 </div>
                 <div className="mb-3">
                   <label htmlFor="email" className="form-label custom-label">
-                    Email :
+                    <b>Email</b> :
                   </label>
                   <input
                     type="email"
@@ -205,7 +205,7 @@ export default function Profile() {
                 </div>
                 <div className="mb-3">
                   <label htmlFor="phone" className="form-label custom-label">
-                    Phone :
+                    <b>Phone</b> :
                   </label>
                   <input
                     type="number"

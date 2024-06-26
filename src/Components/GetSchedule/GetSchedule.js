@@ -47,9 +47,24 @@ export default function GetSchedule() {
         }
     };
 
+   function getUniqueSchedules(schedules){
+        const mp = new Map();
+        schedules.forEach(schedule => {
+            const key = `${schedule.routeId}-${schedule.flightNumber}`;
+            if(!mp.has(key))
+            {
+                mp.set(key, schedule);
+            }
+        });
+
+        return Array.from(mp.values());
+   }
+
+    const uniqueSchedules = getUniqueSchedules(schedules);
+
     const indexOfLastSchedule = currentPage * schedulesPerPage;
     const indexOfFirstSchedule = indexOfLastSchedule - schedulesPerPage;
-    const currentSchedules = schedules.slice(indexOfFirstSchedule, indexOfLastSchedule);
+    const currentSchedules = uniqueSchedules.slice(indexOfFirstSchedule, indexOfLastSchedule);
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -81,10 +96,10 @@ export default function GetSchedule() {
                 )}
             </div>
             <div className="pagination">
-                {schedules.length > schedulesPerPage && (
+                {(uniqueSchedules.length > schedulesPerPage && currentPage > 1) && (
                     <button onClick={() => paginate(currentPage - 1)}>Previous</button>
                 )}
-                {schedules.length > indexOfLastSchedule && (
+                {uniqueSchedules.length > indexOfLastSchedule && (
                     <button onClick={() => paginate(currentPage + 1)}>Next</button>
                 )}
             </div>

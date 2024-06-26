@@ -156,10 +156,10 @@ export default function GetCancelBookings() {
 
         <div className='pagination' id="pagi-id">
             {(currentBookings.length > bookingsPerPage && currentPage > 1) && (
-                <button onClick={() => paginate(currentPage - 1)}>Previous</button>
+                <button id="prev-btnn" onClick={() => paginate(currentPage - 1)}>Previous</button>
             )}
             {currentBookings.length > indexOfLastBooking && (
-                <button onClick={() => paginate(currentPage + 1)}>Next</button>
+                <button id="next-btnn" onClick={() => paginate(currentPage + 1)}>Next</button>
             )}
         </div>
         

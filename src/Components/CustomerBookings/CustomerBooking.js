@@ -218,6 +218,7 @@ export default function CustomerBooking() {
                 <p className="flight-details">{getDate(new Date(booking.booking.schedule.arrival)).formattedTime}</p>
               </div>
               <button className="download-ticket-button" onClick={() => downloadTicket(booking)}>Download Ticket</button>
+              &nbsp; &nbsp;
               <div className='delete-user-btn' onClick={() => CancelBooking(booking.passengerId)}>X</div>
             </div>
             <div className='date-seat-div'>

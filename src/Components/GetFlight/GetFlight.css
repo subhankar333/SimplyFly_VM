@@ -1,6 +1,40 @@
+.search-div {
+  display: flex;
+  align-items: center; 
+  justify-content: center;
+}
+
+.search-container {
+  padding: 10px;
+  font-size: 16px;
+  display: flex;
+  justify-content: center; 
+  border: 1px solid #ccc; 
+  border-radius: 4px; 
+}
+
+.search-container:focus {
+  outline: none; 
+  border-color: #007bff; 
+}
+
+#s-id {
+  background-color: #007bff; 
+  color: white; 
+  border: none; 
+  padding: 10px 20px; 
+  font-size: 16px; 
+  cursor: pointer; 
+  margin-left: 10px; 
+}
+
+#s-id:hover {
+  background-color: #0056b3; 
+}
+
 
 .get-flight-div{
-    margin-top: -580px;
+    margin-top: -640px;
 }
 .flight-list-div{
     width: 100%;
@@ -62,42 +96,87 @@
     background-color: rgb(178, 255, 178);
 }
 
+/* Updated CSS for flight detail view */
 .flight-detail-view {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 30px;
-    align-items: center;
-    width: 150%;
-    background-color: white;
-    box-shadow: 2px 2px 8px rgb(145, 143, 143);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.flight-airline-detail {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.airline-logo {
+  height: 50px; /* Adjust size as needed */
+  width: 50px; /* Adjust size as needed */
+  object-fit: contain; /* Ensure the image fits within the container */
+  border-radius: 50%; /* Rounded border for circular effect */
+}
+
+.airline h3 {
+  margin-top: 14px;
+  font-size: 24px; /* Adjust font size as needed */
+}
+
+.detail-section {
+  display: flex;
+  gap: 40px; /* Adjust gap between sections */
+}
+
+#check-fli{
+  margin-top: -9px;
+  margin-left: 100px;
+}
+
+
+.detail-section > div {
+  flex: 1; /* Each section takes equal space */
+}
+
+#flight-number {
+  font-size: 18px; /* Adjust font size as needed */
+  margin-left: 40px;
+  margin-top: -30px;
+}
+
+.detail-btn {
+  width: fit-content; /* Button width adjusts to content */
+  padding: 10px 20px; /* Adjust padding as needed */
+  font-size: 16px; /* Adjust font size as needed */
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 6px;
+  background-color: rgb(178, 255, 178);
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.detail-btn:hover {
+  background-color: #9eff9e; /* Adjust hover color as needed */
+}
+
+@media (max-width: 900px) {
+  .flight-detail-view {
+    width: 100%;
+    padding: 15px;
+    margin: 0;
   }
-  
-  .flight-airline-detail,
-  .seat-detail-div,
-  .price-detail-div {
-    flex: 1;
-    margin-right: 10px; 
+
+  .detail-section {
+    flex-direction: column; /* Stack sections on smaller screens */
+    gap: 15px; /* Adjust gap between sections */
   }
-  
-  .flight-airline-detail {
-    display: flex;
-    align-items: center;
-  }
-  
-  .airline {
-    display: flex;
-    align-items: center;
-  }
-  
-  .airline h3 {
-    margin-left: 10px; /* Adjust margin as needed */
-  }
-  
-  .flight-number {
-    margin-bottom: 10px; /* Adjust margin as needed */
-  }
-  
+}
+
 
 @media (max-width: 900px) {
     .flight-list-div{

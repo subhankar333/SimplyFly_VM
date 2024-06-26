@@ -11,7 +11,6 @@ import SearchedFlightResult from "../SearchedFlightResult/SearchedFlightResult";
 import Services from "../Offers/Services";
 import AboutPage from "../AboutPage/AboutPage";
 
-
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
