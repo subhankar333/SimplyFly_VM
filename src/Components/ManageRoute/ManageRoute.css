@@ -9,12 +9,12 @@
     display: flex;
     justify-content: center;
     box-shadow: 2px 2px 14px rgb(243, 235, 235);
-
 }
 .sidebar-container{
     margin-top: 30%;
     height: 70%;
     width: 90%;
+    margin-left: 10px !important;
     display: flex;
     flex-direction: column;
     align-items: center;

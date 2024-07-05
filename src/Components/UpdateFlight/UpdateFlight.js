@@ -12,6 +12,9 @@ export default function UpdateFlight() {
   const [flightNumber, setFlightNumber] = useState();
   const [airline, setAirline] = useState("");
   const [seats, setSeats] = useState("");
+  const [economySeats, setEconomySeats] = useState("");
+  const [businessSeats, setBusinessSeats] = useState("");
+  const [premiumEconomySeats, setPremiumEconomySeats] = useState("");
   const [status, setStatus] = useState("");
   const [flights, setFlights] = useState([]);
   const [seatError, setSeatError] = useState("");
@@ -70,12 +73,14 @@ export default function UpdateFlight() {
       });
   };
 
+  // https://localhost:7035/api/Flight/UpdateSeats?flightNumber=FLI001&economySeats=26&businessSeats=19&premiumEconomySeats=18
+
   var UpdateFlightSeats = (e) => {
     e.preventDefault();
-    if (!flightNumber || !seats) {
+    if (!flightNumber || !economySeats || !businessSeats || !premiumEconomySeats) {
       setIsFilledAll(true);
       return;
-    } else if (!validateSeat(seats)) {
+    } else if (!validateSeat(economySeats) || !validateSeat(businessSeats) || !validateSeat(premiumEconomySeats)) {
       setSeatError("Total Seats can't be negative and greater than 120");
       return;
     }
@@ -91,7 +96,7 @@ export default function UpdateFlight() {
       body: JSON.stringify(updateSeatsDetail)
     };
 
-    fetch("https://localhost:7035/api/Flight/UpdateTotalSeats", requestOptions)
+    fetch(`https://localhost:7035/api/Flight/UpdateSeats/?flightNumber=${flightNumber}&economySeats=${economySeats}&businessSeats=${businessSeats}&premiumEconomySeats=${premiumEconomySeats}`, requestOptions)
       .then(res => res.json())
       .then(res => {
         console.log(res);
@@ -172,8 +177,14 @@ export default function UpdateFlight() {
                 </option>
               ))}
             </select>
-            <label htmlFor="seats"><b>Seats:</b></label>
-            <input type="number" placeholder="Enter Seats" value={seats} onChange={(e) => { setSeats(e.target.value); validateSeat(e.target.value); }} />
+            {/* <label htmlFor="seats"><b>Seats:</b></label>
+            <input type="number" placeholder="Enter Seats" value={seats} onChange={(e) => { setSeats(e.target.value); validateSeat(e.target.value); }} /> */}
+            <label htmlFor="seats"><b>Economy Seats:</b></label>
+            <input type="number" placeholder="Enter Economy seats" value={economySeats} onChange={(e) => { setEconomySeats(e.target.value); validateSeat(e.target.value); }} />
+            <label htmlFor="seats"><b>Business Seats:</b></label>
+            <input type="number" placeholder="Enter Business Seats" value={businessSeats} onChange={(e) => { setBusinessSeats(e.target.value); validateSeat(e.target.value); }} />
+            <label htmlFor="seats"><b>Premium Economy Seats:</b></label>
+            <input type="number" placeholder="Enter Premium Economy Seats" value={premiumEconomySeats} onChange={(e) => { setPremiumEconomySeats(e.target.value); validateSeat(e.target.value); }} />
             {seatError && <span className="error-message">{seatError}</span>}
             <button className='update-flight-btn' onClick={UpdateFlightSeats}>Update Flight</button>
             {isFilledAll && <span className="error-message">{formError}</span>}
